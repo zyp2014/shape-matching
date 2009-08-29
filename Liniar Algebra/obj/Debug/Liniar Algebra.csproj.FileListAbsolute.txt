@@ -1,0 +1,38 @@
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\bin\Debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\bin\Debug\ShapeMatchingFrameWork.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\bin\Debug\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\bin\Debug\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.pdb
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.dll
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\ShapeMatchingFrameWork.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Debug\ShapeMatchingFrameWork.pdb

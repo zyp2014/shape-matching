@@ -1,0 +1,5 @@
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\PCA.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\PCA.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\PCA\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\PCA\obj\Release\PCA.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\PCA\obj\Release\PCA.pdb

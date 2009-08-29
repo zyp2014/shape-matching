@@ -1,0 +1,29 @@
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.dll
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.pdb
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\inv.cs
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\lu.cs
+C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\trinverse.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\inv.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\lu.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\trinverse.cs
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.dll
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.pdb
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.dll
+C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\inv.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\lu.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\Debug\Inverse\trinverse.cs
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\Debug\HausdorffDistance.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Debug\HausdorffDistance.pdb

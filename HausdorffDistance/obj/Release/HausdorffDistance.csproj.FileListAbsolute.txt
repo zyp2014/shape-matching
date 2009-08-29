@@ -1,0 +1,5 @@
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\HausdorffDistance.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Release\HausdorffDistance.dll
+C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\HausdorffDistance\obj\Release\HausdorffDistance.pdb
