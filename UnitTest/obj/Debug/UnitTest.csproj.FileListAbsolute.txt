@@ -45,16 +45,5 @@ C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTes
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.csproj.GenerateResource.Cache
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.exe
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\UnitTest.exe
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\UnitTest.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.Form1.resources
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.Properties.Resources.resources
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.csproj.GenerateResource.Cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.exe
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb
 C:\Documents and Settings\UserXP\My Documents\HomeWork\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.exe
 C:\Documents and Settings\UserXP\My Documents\HomeWork\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb

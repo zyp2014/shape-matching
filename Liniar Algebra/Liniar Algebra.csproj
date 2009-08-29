@@ -58,13 +58,10 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="IntMatrix.cs" />
     <Compile Include="Inverse\inv.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Inverse\lu.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Inverse\trinverse.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="LiniarAlgebraFunctions.cs" />
     <Compile Include="Matrix.cs" />

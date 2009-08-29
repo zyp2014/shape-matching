@@ -34,13 +34,3 @@ C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\ShapeCo
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.csproj.GenerateResource.Cache
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.dll
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\ShapeContext.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\ShapeContext.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.Properties.Resources.resources
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.csproj.GenerateResource.Cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\ShapeContext\obj\Debug\ShapeContext.pdb

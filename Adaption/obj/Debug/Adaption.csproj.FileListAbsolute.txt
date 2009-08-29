@@ -27,11 +27,3 @@ C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\dll\deb
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\Adaption.dll
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\Adaption.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\inv.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\lu.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Inverse\trinverse.cs
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Adaption.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\dll\debug\Adaption.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\Adaption.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\Adaption\obj\Debug\Adaption.pdb
