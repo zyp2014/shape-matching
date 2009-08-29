@@ -47,3 +47,5 @@ C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTes
 C:\Users\fire\Documents\HomeWork\Workshop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb
 C:\Documents and Settings\UserXP\My Documents\HomeWork\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.exe
 C:\Documents and Settings\UserXP\My Documents\HomeWork\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.exe
+C:\Documents and Settings\UserXP\My Documents\HomeWork\WorkShop\Product\ShapeMatchingFrameWork\UnitTest\obj\Debug\UnitTest.pdb
