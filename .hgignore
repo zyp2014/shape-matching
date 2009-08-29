@@ -1,3 +1,4 @@
 glob:*\obj
 glob:*\bin
 glob:.\dll\debug
+glob:.\dll\release
