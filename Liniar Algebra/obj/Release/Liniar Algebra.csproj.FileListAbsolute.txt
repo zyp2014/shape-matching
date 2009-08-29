@@ -1,5 +1,0 @@
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\release\ShapeMatchingFrameWork.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\release\ShapeMatchingFrameWork.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Release\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Release\ShapeMatchingFrameWork.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Liniar Algebra\obj\Release\ShapeMatchingFrameWork.pdb

@@ -1,5 +1,0 @@
-C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\bin\Debug\ShapeMatchingFrameWork.dll
-C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\bin\Debug\ShapeMatchingFrameWork.pdb
-C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ShapeMatchingFrameWork.dll
-C:\Users\fire\Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\obj\Debug\ShapeMatchingFrameWork.pdb

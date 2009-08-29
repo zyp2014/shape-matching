@@ -1,7 +1,0 @@
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\ShapeContext.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\ShapeContext.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\ShapeContext\obj\Release\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\ShapeContext\obj\Release\ShapeContext.Properties.Resources.resources
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\ShapeContext\obj\Release\ShapeContext.csproj.GenerateResource.Cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\ShapeContext\obj\Release\ShapeContext.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\ShapeContext\obj\Release\ShapeContext.pdb

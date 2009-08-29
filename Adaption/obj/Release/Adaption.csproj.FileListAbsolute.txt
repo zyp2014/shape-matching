@@ -1,5 +1,0 @@
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\Adaption.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\dll\Release\Adaption.pdb
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Adaption\obj\Release\ResolveAssemblyReference.cache
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Adaption\obj\Release\Adaption.dll
-C:\Documents and Settings\UserXP\My Documents\HomeWork\סדנא\Product\ShapeMatchingFrameWork\Adaption\obj\Release\Adaption.pdb
