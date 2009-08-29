@@ -1,3 +1,2 @@
-glob:.\dll
 glob:*\obj
 glob:*\bin
