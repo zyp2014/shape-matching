@@ -129,8 +129,8 @@ namespace UnitTest
         {
             AlgoFactory factory = new AlgoFactory();
             sketch.Image = factory.GetAlgo(AlgoFactory.ShapeContext).Run(
-                Image.FromFile(@"..\..\..\Example - 1.png"),
-                Image.FromFile(@"..\..\..\Example - 2.png"), null).ResultImage;
+                Image.FromFile(@"..\..\..\fish_shape_b.bmp"),
+                Image.FromFile(@"..\..\..\fish_shape_a.bmp"), null).ResultImage;
         }
 
         private void button4_Click(object sender, EventArgs e)

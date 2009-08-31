@@ -109,7 +109,7 @@ namespace Adaption
 
             ShapeContextMatching matching = new ShapeContextMatching(m_sourcePoints, m_targetPoints, m_commonSize, new SelectSamples(SamplePoints));
 
-            matching.TwoSetsDistance = new Distance(CalcHausdorffDistance);
+            //matching.TwoSetsDistance = new Distance(CalcHausdorffDistance);
             #region Default params override
 
             if (NumberOfIterations != Utils.sr_NoInit)

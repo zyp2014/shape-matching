@@ -10,7 +10,20 @@ using LiniarAlgebra;
 
 namespace ShapeContext
 {
+    /// <summary>
+    /// A delegate supporting selection of points from a full set of points.
+    /// </summary>
+    /// <param name="i_FullSet">A set of points to select from</param>
+    /// <returns>An array of selected points</returns>
     public delegate Point[] SelectSamples(Point[] i_FullSet);
+    /// <summary>
+    /// A delegate supporting measuring of distance between two sets of points representing dark lines on
+    /// 2D surface (drawing).
+    /// </summary>
+    /// <param name="i_ShapeA">A set to measure for the first shape</param>
+    /// <param name="i_ShapeB">A set to measure for the second shape</param>
+    /// <param name="i_Size">The size of the 'world' for both shapes</param>
+    /// <returns>The value of the distance</returns>
     public delegate double Distance(DoubleMatrix i_ShapeA, DoubleMatrix i_ShapeB, Size i_Size);
     /// <Name>          A Shape Context algorithm based matching.   </Name>
     /// <Version>           0.1a Pre release                        </Version>
@@ -52,8 +65,7 @@ namespace ShapeContext
     /// Shape Matching and Object Recognition Using Shape Contexts - S. Belongie, J. Malik, and J. Puzicha (April 2002).
     /// Thin Plate Splines matlab implementation by Fitzgerald J Archibald.
     /// </References>
-    /// <SpecialThanks></SpecialThanks>
-    ///    
+    /// <SpecialThanks></SpecialThanks> 
     public class ShapeContextMatching
     {
         private static readonly int[]   sr_NoMapping = null;
@@ -90,13 +102,9 @@ namespace ShapeContext
 
         /// <summary>
         /// Prepare Shape context matching on the samples that preveously given in the C'tor.
-        /// 
-        /// Remark: Meanwhile no optimization/relaxing is done, just matching points from the source to the target.
         /// </summary>
-        /// <returns>
-        /// The result is array of indexes so if we take i'th point from shape1 samples, the corresponding
-        /// point is at result[i]'th point in shape2 samples.
-        /// </returns>
+        /// The result will be stored under ResultPoints property.
+        /// This property will return full set of points as they needed to be displayed.
         public void FindMatches()
         {
             double shape1DistanceAvg, shape2DistanceAvg;
@@ -141,11 +149,12 @@ namespace ShapeContext
                 {
                     minDistance = currDistance;
                     fullTargetSet = currTargetSet;
+                    m_Shape2Points = LiniarAlgebraFunctions.MatrixToPointArray(fullTargetSet);
                 }
 
             } while (iN-- > 0);
 
-            m_Shape2Points = LiniarAlgebraFunctions.MatrixToPointArray(fullTargetSet);
+            //m_Shape2Points = LiniarAlgebraFunctions.MatrixToPointArray(fullTargetSet);
         }
 
         #region Private Section
@@ -325,6 +334,9 @@ namespace ShapeContext
         /// </summary>
         public double DistanceTreshold { get; set; }
 
+        /// <summary>
+        /// The full points set of the target after matching and relaxation.
+        /// </summary>
         public Point[] ResultPoints
         {
             get
@@ -333,8 +345,14 @@ namespace ShapeContext
             }
         }
 
+        /// <summary>
+        /// A method used to randomize selected amount of sample points.
+        /// </summary>
         public SelectSamples SelectionLogic;
 
+        /// <summary>
+        /// A method used to calculate distance between two full sets of points.
+        /// </summary>
         public Distance TwoSetsDistance;
 
         #endregion

@@ -61,7 +61,7 @@ namespace ShapeContext.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 3.
+        ///   Looks up a localized string similar to 1.
         /// </summary>
         internal static string k_DefaultDistanceTreshold {
             get {
