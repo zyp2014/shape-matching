@@ -12,8 +12,6 @@ namespace Adaption
     {
         public static readonly int sr_Xrow      = 0;
         public static readonly int sr_Yrow      = 1;
-        public static readonly int sr_MinRow    = 0;
-        public static readonly int sr_MaxRow    = 1;
         public static readonly int sr_NoLine    = 0;
         public static readonly int sr_Line      = 1;
 
@@ -79,22 +77,6 @@ namespace Adaption
             {
                 io_Bitmap.SetPixel((int)Math.Round(i_Source[sr_Xrow, col]), (int)Math.Round(i_Source[sr_Yrow, col]), i_Color);
             }
-        }
-
-        public static DoubleMatrix MinMaxByRow(DoubleMatrix i_matrix)
-        {
-            DoubleMatrix retMinMaxMatrix = new DoubleMatrix(i_matrix.RowsCount, 2);
-
-            Func<int, int, double, double> calcAVG = (rows, cols, value) =>
-            {
-                retMinMaxMatrix[rows, sr_MinRow] = Math.Min(retMinMaxMatrix[rows, 0], value);
-                retMinMaxMatrix[rows, sr_MaxRow] = Math.Max(retMinMaxMatrix[rows, 1], value);
-                return value;
-            };
-
-            i_matrix.Iterate(calcAVG);
-
-            return retMinMaxMatrix;
         }
 
         public static List<Point> MatrixToList(DoubleMatrix m_Source)

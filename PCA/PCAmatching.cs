@@ -63,14 +63,14 @@ namespace PCA
         /// </summary>
         /// <param name="i_Source">2 x M1 points the first row is the X value, the second is the Y value</param>
         /// <param name="i_Target">2 x M2 points the first row is the X value, the second is the Y value</param>
-        public PCAMatching(DoubleMatrix i_Source,DoubleMatrix i_Target)
+        public PCAMatching(DoubleMatrix i_Source, DoubleMatrix i_Target)
         {
             if (i_Source.RowsCount != i_Target.RowsCount)
             {
                 throw new PCAException("Cannot match between two sets with different dimensions");
             }
-            m_SourceTransform   = new PCAtransform(i_Source);
-            m_TargetTransform   = new PCAtransform(i_Target);
+            m_SourceTransform = new PCAtransform(i_Source);
+            m_TargetTransform = new PCAtransform(i_Target);
         }
 
         /// <summary>

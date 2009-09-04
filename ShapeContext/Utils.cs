@@ -17,12 +17,57 @@ namespace ShapeContext
         public static readonly int sr_MinPointsForPolygon = 3;
         public static readonly int sr_NoInit = -1;
 
-        public static double EuclideanDistance(Point i_Point1, Point i_Point2)
+        public static double EuclidDistance(Point i_Point1, Point i_Point2)
         {
             double distX = i_Point1.X - i_Point2.X;
             double distY = i_Point1.Y - i_Point2.Y;
 
             return Math.Sqrt(distX * distX + distY * distY);
+        }
+
+        public static double EuclidDistance(double i_X1, double i_Y1, double i_X2, double i_Y2)
+        {
+            double distX = i_X1 - i_X2;
+            double distY = i_Y1 - i_Y2;
+
+            return Math.Sqrt(distX * distX + distY * distY);
+        }
+
+        public static double EuclidDistance(double[] i_Coord1, double[] i_Coord2)
+        {
+            if (i_Coord1.Length != i_Coord2.Length)
+            {
+                throw new ShapeContextUtilsException("Cannot calculate EuclidDistance on coordinates from different dimension.");
+            }
+
+            double retDistance = 0;
+
+            for (int i = 0; i < i_Coord1.Length; ++i)
+            {
+                double dimDist = (i_Coord1[i] - i_Coord2[i]);
+                retDistance += dimDist * dimDist; //Like ^2
+            }
+            retDistance = Math.Sqrt(retDistance);
+            return retDistance;
+        }
+
+        public static double EuclidDistance(Point[] i_PSet1, Point[] i_PSet2)
+        {
+            if (i_PSet1.Length != i_PSet2.Length)
+            {
+                throw new ShapeContextUtilsException("Cannot calculate Euclid Distance on to sets of different length.");
+            }
+
+            double retDistance = 0;
+            for (int i = 0; i < i_PSet1.Length; ++i)
+            {
+                double xDist = i_PSet1[i].X - i_PSet2[i].X;
+                double yDist = i_PSet1[i].Y - i_PSet2[i].Y;
+                retDistance += (xDist * xDist) + (yDist * yDist); //Squares sum
+
+            }
+            retDistance = Math.Sqrt(retDistance);
+            return retDistance;
         }
 
         public static double[] LogSpace(double i_LowBoundery, double i_HighBoundery, int i_NumOfSlices)

@@ -10,21 +10,19 @@ using LiniarAlgebra;
 
 namespace ShapeContext
 {
+    #region Delegates
     /// <summary>
     /// A delegate supporting selection of points from a full set of points.
     /// </summary>
     /// <param name="i_FullSet">A set of points to select from</param>
     /// <returns>An array of selected points</returns>
-    public delegate Point[] SelectSamples(Point[] i_FullSet);
+    public delegate Point[] SelectSamplesDelegate(Point[] i_FullSet);
     /// <summary>
-    /// A delegate supporting measuring of distance between two sets of points representing dark lines on
-    /// 2D surface (drawing).
+    /// 
     /// </summary>
-    /// <param name="i_ShapeA">A set to measure for the first shape</param>
-    /// <param name="i_ShapeB">A set to measure for the second shape</param>
-    /// <param name="i_Size">The size of the 'world' for both shapes</param>
-    /// <returns>The value of the distance</returns>
-    public delegate double Distance(DoubleMatrix i_ShapeA, DoubleMatrix i_ShapeB, Size i_Size);
+    /// <param name="i_PointsToAlign"></param>
+    public delegate void AlignmentDelegate(ref Point[] i_PointsToAlign);
+    #endregion
     /// <Name>          A Shape Context algorithm based matching.   </Name>
     /// <Version>           0.1a Pre release                        </Version>
     /// <FileName>          ShapeContextMatching.cs                 </FileName>
@@ -86,7 +84,7 @@ namespace ShapeContext
 
         private int[] m_Matches;
 
-        public ShapeContextMatching(Point[] i_Shape1Points, Point[] i_Shape2Points,Size i_SurfaceSize, SelectSamples samplesSelectionLogic)
+        public ShapeContextMatching(Point[] i_Shape1Points, Point[] i_Shape2Points,Size i_SurfaceSize, SelectSamplesDelegate samplesSelectionLogic)
 	    {
             NumOfThetaBins   = int.Parse(Resources.k_DefaultThetaBins);
             NumOfBins        = int.Parse(Resources.k_DefaultNumOfBins);
@@ -105,71 +103,77 @@ namespace ShapeContext
         /// </summary>
         /// The result will be stored under ResultPoints property.
         /// This property will return full set of points as they needed to be displayed.
-        public void FindMatches()
-        {
-            double shape1DistanceAvg, shape2DistanceAvg;
-            
-            DoubleMatrix costMatrix;
-
+        public void Calculate()
+        {       
             int iN = NumOfIterations;
 
-            DoubleMatrix fullSourceSet = LiniarAlgebraFunctions.PointArrayToMatrix(m_Shape1Points, sr_NoMapping);
-            DoubleMatrix fullTargetSet = LiniarAlgebraFunctions.PointArrayToMatrix(m_Shape2Points, sr_NoMapping);
+            Point[] fullSourceSet = m_Shape1Points;
+            Point[] fullTargetSet = m_Shape2Points;
 
-            double minDistance = calculateDistance(fullSourceSet, fullTargetSet, m_SurfaceSize);
-
+            double euMinDistance = double.MaxValue;
+            m_Shape1Samples = SelectionLogic(fullSourceSet); 
+          
             do
             {
-                m_Shape1Samples = SelectionLogic(m_Shape1Points);
-                m_Shape2Samples = SelectionLogic(m_Shape2Points);
-
-                //Calculate histogram - Next version can be in two threads
-                m_Shape1Histogram = calcHistograms(m_Shape1Samples, out shape1DistanceAvg);
-                m_Shape2Histogram = calcHistograms(m_Shape2Samples, out shape2DistanceAvg);
-                
-                costMatrix = calculateCostMatrix();
-
-                m_Matches = HungarianAlgorithm.Run(costMatrix);
-
-                
+                //Selecting fresh target points set
+                m_Shape2Samples = SelectionLogic(fullTargetSet);
+                //Matching using core Shape context algorithms
+                DetermineMatches(m_Shape1Samples, m_Shape2Samples);
+                //Converting and sequencing the samples according to the matchings we've found
                 Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
 
+                //There are some harshly wrong matches, will try eliminate them using a treshold.
+                //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
                 if (DistanceTreshold > 0)
                 {
-                    enforceDistance(ref SourceTargetMap, DistanceTreshold);
-                    reduceNullDistance(ref SourceTargetMap);                    
+                    enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
+                    //reduceNullDistance(ref SourceTargetMap);
                 }
-
-                DoubleMatrix currTargetSet = new DoubleMatrix((Matrix<double>)fullTargetSet.Clone());
-                TPS.Calculate(SourceTargetMap.Element1, SourceTargetMap.Element2, ref currTargetSet, m_SurfaceSize);
-
-                double currDistance = calculateDistance(fullSourceSet, currTargetSet, m_SurfaceSize);
-
-                if (currDistance <= minDistance)
+                //Preparing TPS algorithm
+                TPS tpsWarpping = new TPS(m_SurfaceSize, SourceTargetMap.Element1);
+                //Calculating transformation
+                tpsWarpping.Calculate(SourceTargetMap.Element2);
+                //Transforming first of all , our target samples, this will indicate for quality of the improvment.
+                tpsWarpping.Interpolate(ref m_Shape2Samples);
+                //Calculating the distance between our source samples and the interpolated target samples.
+                double euNewDistance = Utils.EuclidDistance(m_Shape1Samples, m_Shape2Samples);
+                //If there was improvement in a meanings of total euclid distance, will transform(inerpolate) whole target set.
+                if (euMinDistance > euNewDistance)
                 {
-                    minDistance = currDistance;
-                    fullTargetSet = currTargetSet;
-                    m_Shape2Points = LiniarAlgebraFunctions.MatrixToPointArray(fullTargetSet);
+                    euMinDistance = euNewDistance;
+                    tpsWarpping.Interpolate(ref fullTargetSet);
                 }
 
+                OnBetweenIterations(ref fullTargetSet);
             } while (iN-- > 0);
 
-            //m_Shape2Points = LiniarAlgebraFunctions.MatrixToPointArray(fullTargetSet);
+        }
+
+        private void OnBetweenIterations(ref Point[] fullTargetSet)
+        {
+            if (OnIterationEnd != null)
+            {
+                OnIterationEnd(ref fullTargetSet);
+            }
+        }
+
+        public int[] DetermineMatches(Point[] i_SourceSamples, Point[] i_TargetSamples)
+        {
+            DoubleMatrix costMatrix;
+            double shape1DistanceAvg, shape2DistanceAvg;
+
+            //Calculate histogram - Next version can be in two threads
+            m_Shape1Histogram = calcHistograms(i_SourceSamples, out shape1DistanceAvg);
+            m_Shape2Histogram = calcHistograms(i_TargetSamples, out shape2DistanceAvg);
+
+            costMatrix = calculateCostMatrix();
+
+            m_Matches = HungarianAlgorithm.Run(costMatrix);
+
+            return m_Matches;
         }
 
         #region Private Section
-
-        private double calculateDistance(DoubleMatrix i_Set1, DoubleMatrix i_Set2,Size i_Size)
-        {
-            if (TwoSetsDistance != null)
-            {
-                return TwoSetsDistance(i_Set1, i_Set2, i_Size);
-            }
-            else
-            {
-                return double.MaxValue;
-            }
-        }
 
         private void reduceNullDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets)
         {
@@ -231,6 +235,30 @@ namespace ShapeContext
             };
 
             targetPoints.Iterate(cellLogic);
+        }
+
+        private void enforceEuDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets, double i_TresholdFromSurfSize)
+        {
+            if (i_TresholdFromSurfSize < 0 || i_TresholdFromSurfSize > 100)
+            {
+                throw new ShapeContextAlgoException("i_TresholdFromSurfSize parameter is not in percents format");
+            }
+
+            DoubleMatrix sourcePoints = io_PairedSets.Element1;
+            DoubleMatrix targetPoints = io_PairedSets.Element2;
+            //A percantage of a surface's diagonal length.
+            double treshold = Utils.EuclidDistance(new Point(0, 0), new Point(m_SurfaceSize)) / 100 * i_TresholdFromSurfSize;
+
+            for (int row = 0; row < sourcePoints.RowsCount; ++row)
+            {
+                double distance = Utils.EuclidDistance(sourcePoints[row, sr_Xaxis], sourcePoints[row, sr_Yaxis], targetPoints[row, sr_Xaxis], targetPoints[row, sr_Yaxis]);
+
+                if (distance > treshold)
+                {
+                    targetPoints[row, sr_Xaxis] = sourcePoints[row, sr_Xaxis];
+                    targetPoints[row, sr_Yaxis] = sourcePoints[row, sr_Yaxis];
+                }
+            }
         }
 
         private Pair<DoubleMatrix, DoubleMatrix> buildMappingByIndex(Point[] i_sourceMapping, Point[] i_targetMapping, int[] i_matches)
@@ -348,13 +376,9 @@ namespace ShapeContext
         /// <summary>
         /// A method used to randomize selected amount of sample points.
         /// </summary>
-        public SelectSamples SelectionLogic;
+        public SelectSamplesDelegate SelectionLogic;
 
-        /// <summary>
-        /// A method used to calculate distance between two full sets of points.
-        /// </summary>
-        public Distance TwoSetsDistance;
-
+        public AlignmentDelegate OnIterationEnd;
         #endregion
 
     }

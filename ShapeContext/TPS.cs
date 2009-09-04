@@ -7,33 +7,110 @@ using System.Drawing;
 
 namespace ShapeContext
 {
-    public static class TPS
+    public class TPS
     {
         private static readonly int sr_Xaxis = 0;
         private static readonly int sr_Yaxis = 1;
+        private static readonly int sr_TPSminNumOfSamples = 4;
+
+        private DoubleMatrix m_SourceMapping = null;
+        private DoubleMatrix m_PixelMapping = null;
+        private Size         m_MeshSize;
+
+        public TPS(Size i_MeshSize)
+            : this(i_MeshSize, null)
+        { }
+
+        public TPS(Size i_MeshSize, DoubleMatrix i_SourceMapping)
+        {
+            m_MeshSize = i_MeshSize;
+            m_SourceMapping = i_SourceMapping;
+        }
+
         /// <summary>
         /// Calculates Thin Plate Splines warping
         /// </summary>
         /// <param name="i_SourceMapping">Source Mapping points Nx2</param>
         /// <param name="i_TargetMapping">Target Mapping points Nx2</param>
         /// <param name="io_FullSet">The full set of points to wrap</param>
-        public static void Calculate(DoubleMatrix i_SourceMapping, DoubleMatrix i_TargetMapping, ref DoubleMatrix io_FullSet, Size i_MeshSize)
+        public void Calculate(DoubleMatrix i_SourceMapping, DoubleMatrix i_TargetMapping, ref DoubleMatrix io_FullSet)
+        {
+            if (i_TargetMapping.RowsCount >= sr_TPSminNumOfSamples)
+            {
+                m_SourceMapping = i_SourceMapping;
+                m_PixelMapping = pixelMapping(m_SourceMapping, i_TargetMapping, m_MeshSize);
+                interpolate2D(m_MeshSize, m_PixelMapping, ref io_FullSet);                
+            }
+        }
+
+        public void Calculate(DoubleMatrix i_SourceMapping, DoubleMatrix i_TargetMapping, ref Point[] io_FullSet)
+        {
+            if (i_TargetMapping.RowsCount >= sr_TPSminNumOfSamples)
+            {
+                m_SourceMapping = i_SourceMapping;
+                m_PixelMapping = pixelMapping(m_SourceMapping, i_TargetMapping, m_MeshSize);
+                interpolate2D(m_MeshSize, m_PixelMapping, ref io_FullSet);
+            }
+        }
+
+        public void Calculate(DoubleMatrix i_SourceMapping, DoubleMatrix i_TargetMapping)
+        {
+            if (i_TargetMapping.RowsCount >= sr_TPSminNumOfSamples)
+            {
+                m_SourceMapping = i_SourceMapping;
+                m_PixelMapping = pixelMapping(m_SourceMapping, i_TargetMapping, m_MeshSize);
+            }
+        }
+
+        public void Calculate(DoubleMatrix i_TargetMapping)
+        {
+            if (m_SourceMapping != null)
+            {
+                m_PixelMapping = pixelMapping(m_SourceMapping, i_TargetMapping, m_MeshSize);
+            }
+        }
+
+        public void Interpolate(ref Point[] io_Points)
+        {
+            if (m_PixelMapping != null)
+            {
+                interpolate2D(m_MeshSize, m_PixelMapping, ref io_Points);
+            }
+        }
+
+        private static DoubleMatrix pixelMapping(DoubleMatrix i_SourceMapping, DoubleMatrix i_TargetMapping, Size i_MeshSize)
         {
             if (i_SourceMapping.RowsCount != i_TargetMapping.RowsCount ||
                 i_SourceMapping.ColumnsCount != i_TargetMapping.ColumnsCount)
             {
-                throw new TPSException("Thin Plate Splines algorithm cannot map source to target with different sizes");
+                throw new TPSException("Thin Plate Splines algorithm cannot map source to target with different sizes.");
             }
 
             DoubleMatrix mapping = mapLandMarks(i_SourceMapping);
             DoubleMatrix targetVector = mapTargets(i_TargetMapping);
             if (mapping.Inverse() == false)
             {
-                return;
+                throw new TPSException("Inverse matrix calculation failed.");
             }
             DoubleMatrix remapped = mapping * targetVector;
             DoubleMatrix newMap = tpsMAP(remapped, i_MeshSize, i_SourceMapping);
-            interpolate2D(i_MeshSize, newMap, ref io_FullSet);
+            return newMap;
+        }        
+
+        private static void interpolate2D(Size i_MeshSize, DoubleMatrix newMap, ref Point[] io_FullSet)
+        {
+            for (int row = 0; row < io_FullSet.Length; ++row)
+            {
+
+                double Xval = io_FullSet[row].X;
+                double Yval = io_FullSet[row].Y;
+
+                int fsIndex = (int)(i_MeshSize.Width * Yval + Xval);
+
+                io_FullSet[row].X = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Width - 1));
+                io_FullSet[row].Y = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Xaxis]), i_MeshSize.Height - 1));
+
+            }
         }
 
         private static void interpolate2D(Size i_MeshSize, DoubleMatrix newMap, ref DoubleMatrix io_FullSet)

@@ -8,6 +8,42 @@ using LiniarAlgebra;
 
 namespace HausdorffDistance
 {
+    /// <Name>       Hausdorff distance mapping algorithm           </Name>
+    /// <Version>           0.1a Pre release                        </Version>
+    /// <FileName>         HausdorffMatching.cs                     </FileName>
+    /// <ClassName>         HausdorffMatching                       </ClassName>
+    ///<Creator>***********************************************************
+    ///     <Name>          Yanir Taflev                            </Name>
+    ///     <Email>         yanirta@gmail.com                       </Email>
+    ///</Creator>**********************************************************
+    /// <Guidance>
+    ///     <Name>                                                  </Name>
+    ///     <Email>                                                 </Email>
+    /// </Guidance>
+    /// <Institution>
+    /// </Institution>
+    /// <Date>              Sep. - 2009                             </Date>
+    /// <License>
+    /// This class library is free to use as long as it used unmodified, including the credits above.
+    /// For modifications please contact with the creator to get an approval.
+    /// </License>
+    /// <summary>
+    /// Having two binary maps (for example we can represent B/W drawing as binary map).
+    /// Hausdorff distance mapping algorithm will create a new distance map that 
+    /// represets the distance of each pixel in the first b.map(binary map) to the most
+    /// nearest pixel in the second b.map.
+    /// There are two types of Hausdorff distance maps that the algorithm knows to generate.
+    ///     - Single side distance - Can be generates as first to second or as second to first b.maps
+    ///                              this type will take one map and will represent the distances 
+    ///                              from the other b.map.
+    ///     - Double side distance - Will create distance map that is the union (the sum of the distances)
+    ///                              of two single sided maps. ({the first from the second} union {the second from the first})
+    ///                              
+    /// </summary>
+    /// <References>
+    /// 
+    /// </References>
+    /// <SpecialThanks></SpecialThanks> 
     public class HausdorffMatching
     {
         private static readonly int sr_NoPixel  = 0;

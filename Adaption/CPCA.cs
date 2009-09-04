@@ -71,19 +71,20 @@ namespace Adaption
 
     public class CPCAresultData : ICData
     {
+        public static readonly int sr_X = 0;
+        public static readonly int sr_Y = 1;
+
         private DoubleMatrix    m_Source = null;
         private DoubleMatrix    m_Target = null;
         private DoubleMatrix    m_GlobalShift = null;
         private Bitmap          m_ResultlingBitmap = null;
-        private PCAMatching   m_Matching = null;
+        private PCAMatching     m_Matching = null;
         private Size            m_CommonSize;
 
         public CPCAresultData(DoubleMatrix i_Source,DoubleMatrix i_Target,Size i_ImageSize,PCAMatching i_matching)
         {
-            ///determine global shifting if required, and calculating the image size according to manipulated data
-            m_CommonSize = determineImageSize(i_ImageSize, i_Target);
-            Utils.AddScalarsByDims(ref i_Source, m_GlobalShift);
-            Utils.AddScalarsByDims(ref i_Target, m_GlobalShift);
+            ///Determine global shifting if required, and calculating the image size according to manipulated data
+            m_CommonSize = ShiftToPozitives(ref i_Source, ref i_Target, i_ImageSize);
             ///Creating new bitmap and setting fields
             m_ResultlingBitmap = new Bitmap(m_CommonSize.Width, m_CommonSize.Height);
             m_Source = i_Source;
@@ -93,30 +94,11 @@ namespace Adaption
             m_Matching = i_matching;
         }
 
-        private Size determineImageSize(Size i_ImageSize, DoubleMatrix i_Target)
+        private Size ShiftToPozitives(ref DoubleMatrix io_Source, ref DoubleMatrix io_Target, Size i_ImageCurrSize)
         {
-            Size retSize = i_ImageSize;
-
-            m_GlobalShift = new DoubleMatrix(2, 1);
-            m_GlobalShift.Init(0);
-
-            DoubleMatrix dimsMinMax = Utilities.MinMaxByRow(i_Target);
-            if (dimsMinMax[Utilities.sr_Xrow, Utilities.sr_MinRow] < 0)
-            {
-                int GrowBy = Math.Abs((int)Math.Round(dimsMinMax[Utilities.sr_Xrow, Utilities.sr_MinRow]));
-                m_GlobalShift[Utilities.sr_Xrow, 0] = GrowBy;
-                retSize.Width += GrowBy + 1;
-            }
-            if (dimsMinMax[Utilities.sr_Yrow, Utilities.sr_MinRow] < 0)
-            {
-                int GrowBy = Math.Abs((int)Math.Round(dimsMinMax[Utilities.sr_Yrow, Utilities.sr_MinRow]));
-                m_GlobalShift[Utilities.sr_Yrow, 0] = GrowBy;
-                retSize.Height += GrowBy + 1;
-            }
-            Utils.AddScalarsByDims(ref dimsMinMax, m_GlobalShift);
-            retSize.Width  = Math.Max(retSize.Width,  (int)Math.Round(dimsMinMax[Utilities.sr_Xrow, Utilities.sr_MaxRow]) + 1);
-            retSize.Height = Math.Max(retSize.Height, (int)Math.Round(dimsMinMax[Utilities.sr_Yrow, Utilities.sr_MaxRow]) + 1);
-            return retSize;
+            DoubleMatrix minMaxTarget = Utils.ShiftToPozitives(ref io_Target,io_Source);
+            return new Size((int)Math.Max(minMaxTarget[sr_X, Utils.sr_MaxRow], i_ImageCurrSize.Width),
+                            (int)Math.Max(minMaxTarget[sr_Y, Utils.sr_MaxRow], i_ImageCurrSize.Height));
         }
 
         #region ICData Members

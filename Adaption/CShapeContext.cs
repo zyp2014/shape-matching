@@ -7,7 +7,6 @@ using System.Reflection;
 
 using ShapeContext;
 using LiniarAlgebra;
-using HausdorffDistance;
 
 namespace Adaption
 {
@@ -16,12 +15,10 @@ namespace Adaption
         private Image m_Image1 = null;
         private Image m_Image2 = null;
 
-
-
         private Point[] m_sourcePoints  = null;
         private Point[] m_targetPoints  = null;
         private Size    m_commonSize;
-        
+
         public CShapeContext()
         {
             TresHoldColor       = Utilities.sr_defaultTresholdColor;
@@ -107,9 +104,8 @@ namespace Adaption
             
             m_commonSize = new Size(Math.Max(m_Image1.Width, m_Image2.Width), Math.Max(m_Image1.Height, m_Image2.Height));
 
-            ShapeContextMatching matching = new ShapeContextMatching(m_sourcePoints, m_targetPoints, m_commonSize, new SelectSamples(SamplePoints));
+            ShapeContextMatching matching = new ShapeContextMatching(m_sourcePoints, m_targetPoints, m_commonSize, new SelectSamplesDelegate(SamplePoints));
 
-            //matching.TwoSetsDistance = new Distance(CalcHausdorffDistance);
             #region Default params override
 
             if (NumberOfIterations != Utils.sr_NoInit)
@@ -127,7 +123,7 @@ namespace Adaption
 
             #endregion
 
-            matching.FindMatches();
+            matching.Calculate();
 
             CShapeContextResultData retResult = new CShapeContextResultData(
                 m_sourcePoints,
@@ -147,25 +143,6 @@ namespace Adaption
         private Point[] SamplePoints(Point[] i_FullSet)
         {
             return Utils.GetIndexedSamplePoints(i_FullSet, NumberOfSamples);
-        }
-
-        private double CalcHausdorffDistance(DoubleMatrix i_ShapeA, DoubleMatrix i_ShapeB, Size i_CanvasSize)
-        {
-            IntMatrix BinaryMap1 = Utilities.ToBinaryMap(i_ShapeA, i_CanvasSize);
-            IntMatrix BinaryMap2 = Utilities.ToBinaryMap(i_ShapeB, i_CanvasSize);
-
-            HausdorffMatching matching = new HausdorffMatching(BinaryMap1, BinaryMap2);
-            IntMatrix Result = matching.CalculateTwoSides();
-
-            double retDistance = 0;
-            Func<int, int> distCount = (val) =>
-                {
-                    retDistance += val;
-                    return val;
-                };
-
-            Result.Iterate(distCount);
-            return retDistance;
         }
     }
 

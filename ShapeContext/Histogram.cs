@@ -76,7 +76,7 @@ namespace ShapeContext
             { // symemtric metrix
                 for (int j = i; j < numOfSamples; ++j)
                 {
-                    euclideDist = Utils.EuclideanDistance(i_Points[i], i_Points[j]);
+                    euclideDist = Utils.EuclidDistance(i_Points[i], i_Points[j]);
                     radiusMatrix[i, j] = euclideDist;
                     radiusMatrix[j, i] = euclideDist;
 
