@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AlgoFactory.cs" />
     <Compile Include="AlgorithmBase.cs" />
+    <Compile Include="CModifiedShapeContext.cs" />
     <Compile Include="CProperty.cs" />
     <Compile Include="CHausdorffDistance.cs" />
     <Compile Include="CPCA.cs" />

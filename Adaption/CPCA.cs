@@ -96,7 +96,7 @@ namespace Adaption
 
         private Size ShiftToPozitives(ref DoubleMatrix io_Source, ref DoubleMatrix io_Target, Size i_ImageCurrSize)
         {
-            DoubleMatrix minMaxTarget = Utils.ShiftToPozitives(ref io_Target,io_Source);
+            DoubleMatrix minMaxTarget = Utils.ShiftToPositives(ref io_Target,io_Source);
             return new Size((int)Math.Max(minMaxTarget[sr_X, Utils.sr_MaxRow], i_ImageCurrSize.Width),
                             (int)Math.Max(minMaxTarget[sr_Y, Utils.sr_MaxRow], i_ImageCurrSize.Height));
         }

@@ -34,7 +34,7 @@ namespace PCA
             io_leftHandMatrix.Iterate(substractByDim);
         }
 
-        public static DoubleMatrix ShiftToPozitives(ref DoubleMatrix io_Coordinates,params DoubleMatrix[] io_AffectedAlso)
+        public static DoubleMatrix ShiftToPositives(ref DoubleMatrix io_Coordinates,params DoubleMatrix[] io_AffectedAlso)
         {
             DoubleMatrix retMinMax = MinMaxByRow(io_Coordinates);
             DoubleMatrix growByMatrix = new DoubleMatrix(retMinMax.RowsCount, 1);

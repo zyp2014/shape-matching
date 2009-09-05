@@ -111,28 +111,31 @@ namespace ShapeContext
             Point[] fullTargetSet = m_Shape2Points;
 
             double euMinDistance = double.MaxValue;
-            m_Shape1Samples = SelectionLogic(fullSourceSet); 
-          
+            
+            m_Shape1Samples = SelectionLogic(fullSourceSet);
+
             do
             {
-                //Selecting fresh target points set
+                OnBetweenIterations(ref fullTargetSet);
+
+                //Selecting fresh target points set                
                 m_Shape2Samples = SelectionLogic(fullTargetSet);
                 //Matching using core Shape context algorithms
                 DetermineMatches(m_Shape1Samples, m_Shape2Samples);
+
                 //Converting and sequencing the samples according to the matchings we've found
                 Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
-
                 //There are some harshly wrong matches, will try eliminate them using a treshold.
                 //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
                 if (DistanceTreshold > 0)
                 {
                     enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
-                    //reduceNullDistance(ref SourceTargetMap);
                 }
+
                 //Preparing TPS algorithm
-                TPS tpsWarpping = new TPS(m_SurfaceSize, SourceTargetMap.Element1);
+                TPS tpsWarpping = new TPS(m_SurfaceSize, SourceTargetMap.Element2);
                 //Calculating transformation
-                tpsWarpping.Calculate(SourceTargetMap.Element2);
+                tpsWarpping.Calculate(SourceTargetMap.Element1);
                 //Transforming first of all , our target samples, this will indicate for quality of the improvment.
                 tpsWarpping.Interpolate(ref m_Shape2Samples);
                 //Calculating the distance between our source samples and the interpolated target samples.
@@ -144,8 +147,9 @@ namespace ShapeContext
                     tpsWarpping.Interpolate(ref fullTargetSet);
                 }
 
-                OnBetweenIterations(ref fullTargetSet);
             } while (iN-- > 0);
+
+            m_Shape2Points = fullTargetSet;
 
         }
 

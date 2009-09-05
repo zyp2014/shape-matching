@@ -25,20 +25,20 @@ namespace UnitTest
         {
             InitializeComponent();
 
-            Bitmap surface = new Bitmap(sketch.Width, sketch.Height);
-            Graphics.FromImage(surface).Clear(Color.WhiteSmoke);
-            sketch.Image = surface;
+            //Bitmap surface = new Bitmap(sketch.Width, sketch.Height);
+            //Graphics.FromImage(surface).Clear(Color.WhiteSmoke);
+            //sketch.Image = surface;
 
-            m_graphics = Graphics.FromImage(sketch.Image);
+            //m_graphics = Graphics.FromImage(sketch.Image);
 
-            m_shape1Points = prepareDemoRect1();
-            m_shape2Points = prepareDemoRect2();
+            //m_shape1Points = prepareDemoRect1();
+            //m_shape2Points = prepareDemoRect2();
 
-            Pen dpen = new Pen(Color.Black,1);
+            //Pen dpen = new Pen(Color.Black,1);
 
-            drawPolygon(m_shape1Points,m_graphics,dpen);
-            dpen.Color = Color.Red;
-            drawPolygon(m_shape2Points,m_graphics,dpen);
+            //drawPolygon(m_shape1Points,m_graphics,dpen);
+            //dpen.Color = Color.Red;
+            //drawPolygon(m_shape2Points,m_graphics,dpen);
         }
 
         private void drawPolygon(Point[] i_shapePoints,Graphics i_Graphics,Pen i_drawingPen)
@@ -77,13 +77,30 @@ namespace UnitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Point[] shape1samples = ShapeContext.Utils.GetSamplePointsFromPath(m_shape1Points, r_DefaultNumOfSamples, true);
-            Point[] shape2samples = ShapeContext.Utils.GetSamplePointsFromPath(m_shape2Points, r_DefaultNumOfSamples, true);
+            //Point[] shape1samples = ShapeContext.Utils.GetSamplePointsFromPath(m_shape1Points, r_DefaultNumOfSamples, true);
+            //Point[] shape2samples = ShapeContext.Utils.GetSamplePointsFromPath(m_shape2Points, r_DefaultNumOfSamples, true);
 
             //ShapeContextMatching matching = new ShapeContextMatching(shape1samples, shape2samples, null);
             //int[] matches = matching.FindMatches();
 
             //drawMathces(shape1samples, shape2samples,matches, new Pen(Color.Green, 1));
+            DoubleMatrix src = new DoubleMatrix(5,2);
+            src[0,0] = 5; src[0,1] = 1; //x,y
+            src[1,0] = 4; src[1,1] = 10; //x,y
+            src[2,0] = 3; src[2,1] = 20; //x,y
+            src[3,0] = 2; src[3,1] = 30; //x,y
+            src[4,0] = 1; src[4,1] = 40; //x,y
+
+            DoubleMatrix trg = new DoubleMatrix(5,2);
+            trg[0,0] = 10; trg[0,1] = 1; //x,y
+            trg[1,0] = 10; trg[1,1] = 10; //x,y
+            trg[2,0] = 10; trg[2,1] = 20; //x,y
+            trg[3,0] = 10; trg[3,1] = 30; //x,y
+            trg[4,0] = 10; trg[4,1] = 40; //x,y
+            TPS test = new TPS(new Size(50, 50), src);
+            test.Calculate(trg);
+            Point[] outp = LiniarAlgebraFunctions.MatrixToPointArray(src);
+            test.Interpolate(ref outp);
         }
 
         private void drawMathces(Point[] i_shape1samples,Point[] i_shape2samples,int[] i_matches,Pen i_DrawingPen)
@@ -145,6 +162,16 @@ namespace UnitTest
         {
             AlgoFactory factory = new AlgoFactory();
             IMatchingAlgo algo = factory.GetAlgo(AlgoFactory.Hausdorff);
+            algo.Create(
+                Image.FromFile(@"..\..\..\Example - 1.png"),
+                Image.FromFile(@"..\..\..\Example - 2.png"));
+            sketch.Image = algo.Run().ResultImage;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            AlgoFactory factory = new AlgoFactory();
+            IMatchingAlgo algo = factory.GetAlgo(AlgoFactory.ModifiedShapeContext);
             algo.Create(
                 Image.FromFile(@"..\..\..\Example - 1.png"),
                 Image.FromFile(@"..\..\..\Example - 2.png"));

@@ -86,12 +86,13 @@ namespace ShapeContext
                 throw new TPSException("Thin Plate Splines algorithm cannot map source to target with different sizes.");
             }
 
-            DoubleMatrix mapping = mapLandMarks(i_SourceMapping);
-            DoubleMatrix targetVector = mapTargets(i_TargetMapping);
+            DoubleMatrix mapping = mapLandMarks(i_SourceMapping);           
             if (mapping.Inverse() == false)
             {
                 throw new TPSException("Inverse matrix calculation failed.");
             }
+            
+            DoubleMatrix targetVector = mapTargets(i_TargetMapping);
             DoubleMatrix remapped = mapping * targetVector;
             DoubleMatrix newMap = tpsMAP(remapped, i_MeshSize, i_SourceMapping);
             return newMap;
@@ -107,9 +108,13 @@ namespace ShapeContext
 
                 int fsIndex = (int)(i_MeshSize.Width * Yval + Xval);
 
-                io_FullSet[row].X = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Width - 1));
-                io_FullSet[row].Y = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Xaxis]), i_MeshSize.Height - 1));
+                //The right form by the book
+                //io_FullSet[row].Y = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Height - 1));
+                //io_FullSet[row].X = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Xaxis]), i_MeshSize.Width - 1));
 
+                //The right form for us:
+                io_FullSet[row].Y = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Xaxis]), i_MeshSize.Height - 1));
+                io_FullSet[row].X = (int)Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Width - 1));
             }
         }
 
@@ -123,8 +128,8 @@ namespace ShapeContext
 
                 int fsIndex = (int)(i_MeshSize.Width * Yval + Xval);
 
-                io_FullSet[row, sr_Xaxis] = Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Width - 1));
                 io_FullSet[row, sr_Yaxis] = Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Xaxis]), i_MeshSize.Height - 1));
+                io_FullSet[row, sr_Xaxis] = Math.Max(0, Math.Min(Math.Round(newMap[fsIndex, sr_Yaxis]), i_MeshSize.Width - 1));
 
 			}
         }
@@ -133,15 +138,15 @@ namespace ShapeContext
         {
             DoubleMatrix TPSmap = new DoubleMatrix(i_MeshSize.Height * i_MeshSize.Width, i_SourceMapping.RowsCount + 3);
 
-            for (int height = 0; height < i_MeshSize.Height; ++height)
+            for (int X = 0; X < i_MeshSize.Height; ++X)
             {
-                for (int width = 0; width < i_MeshSize.Width; ++width)
+                for (int Y = 0; Y < i_MeshSize.Width; ++Y)
                 {
                     for (int mapIndex = 0; mapIndex < i_SourceMapping.RowsCount; ++mapIndex)
                     {
                         double result = Math.Sqrt(
-                            Math.Pow(i_SourceMapping[mapIndex, sr_Xaxis] - height, 2) +
-                            Math.Pow(i_SourceMapping[mapIndex, sr_Yaxis] - width, 2));
+                            Math.Pow(i_SourceMapping[mapIndex, sr_Xaxis] - X - 1, 2) +
+                            Math.Pow(i_SourceMapping[mapIndex, sr_Yaxis] - Y - 1, 2));
 
                         ///Radial basis
                         if (result != 0)
@@ -149,11 +154,11 @@ namespace ShapeContext
                             result = 2 * Math.Pow(result, 2) * Math.Log(result); 
                         }
 
-                        TPSmap[height * i_MeshSize.Width + width, mapIndex] = result;
+                        TPSmap[X * i_MeshSize.Width + Y, mapIndex] = result;
                     }
-                    TPSmap[height * i_MeshSize.Width + width, i_SourceMapping.RowsCount] = 1;
-                    TPSmap[height * i_MeshSize.Width + width, i_SourceMapping.RowsCount + sr_Xaxis + 1] = height;
-                    TPSmap[height * i_MeshSize.Width + width, i_SourceMapping.RowsCount + sr_Yaxis + 1] = width;
+                    TPSmap[X * i_MeshSize.Width + Y, i_SourceMapping.RowsCount] = 1;
+                    TPSmap[X * i_MeshSize.Width + Y, i_SourceMapping.RowsCount + sr_Xaxis + 1] = X;
+                    TPSmap[X * i_MeshSize.Width + Y, i_SourceMapping.RowsCount + sr_Yaxis + 1] = Y;
                 }
             }
 

@@ -12,12 +12,17 @@ namespace Adaption
 {
     public class CShapeContext : AlgorithmBase
     {
+        public static readonly int sr_X = 0;
+        public static readonly int sr_Y = 1;
+
         private Image m_Image1 = null;
         private Image m_Image2 = null;
 
-        private Point[] m_sourcePoints  = null;
-        private Point[] m_targetPoints  = null;
-        private Size    m_commonSize;
+        protected   Point[] m_sourcePoints  = null;
+        protected   Point[] m_targetPoints = null;
+        protected   Size    m_commonSize;
+
+        private ShapeContextMatching m_matching;
 
         public CShapeContext()
         {
@@ -79,6 +84,16 @@ namespace Adaption
         {
             m_Image1 = i_SourceImage;
             m_Image2 = i_TargetImage;
+
+            List<Point> source = Utilities.ExtractPoints(m_Image1, TresHoldColor);
+            List<Point> target = Utilities.ExtractPoints(m_Image2, TresHoldColor);
+
+            m_sourcePoints = Utilities.ListToArray(source);
+            m_targetPoints = Utilities.ListToArray(target);
+            
+            m_commonSize = new Size(Math.Max(m_Image1.Width, m_Image2.Width), Math.Max(m_Image1.Height, m_Image2.Height));
+
+            m_matching = new ShapeContextMatching(m_sourcePoints, m_targetPoints, m_commonSize, new SelectSamplesDelegate(SamplePoints));
         }
 
         public override Type MyType
@@ -91,43 +106,33 @@ namespace Adaption
 
         public override ICData Run()
         {
-            List<Point> source = Utilities.ExtractPoints(m_Image1, TresHoldColor);
-            List<Point> target = Utilities.ExtractPoints(m_Image2, TresHoldColor);
-
-            m_sourcePoints = Utilities.ListToArray(source);
-            m_targetPoints = Utilities.ListToArray(target);
-
             if (NumberOfSamples == Utils.sr_NoInit)
             {///if no amount of samples is set
-                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
+                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 20; ///Hard reduction
             }
             
-            m_commonSize = new Size(Math.Max(m_Image1.Width, m_Image2.Width), Math.Max(m_Image1.Height, m_Image2.Height));
-
-            ShapeContextMatching matching = new ShapeContextMatching(m_sourcePoints, m_targetPoints, m_commonSize, new SelectSamplesDelegate(SamplePoints));
-
             #region Default params override
 
             if (NumberOfIterations != Utils.sr_NoInit)
             {
-                matching.NumOfIterations = NumberOfIterations;
+                m_matching.NumOfIterations = NumberOfIterations;
             }
             if (NumberOfBins != Utils.sr_NoInit)
             {
-                matching.NumOfBins = NumberOfBins;
+                m_matching.NumOfBins = NumberOfBins;
             }
             if (NumberOfThetaBins!= Utils.sr_NoInit)
             {
-                matching.NumOfThetaBins = NumberOfThetaBins;
+                m_matching.NumOfThetaBins = NumberOfThetaBins;
             }
 
             #endregion
 
-            matching.Calculate();
+            m_matching.Calculate();
 
             CShapeContextResultData retResult = new CShapeContextResultData(
                 m_sourcePoints,
-                matching.ResultPoints,
+                m_matching.ResultPoints,
                 m_commonSize);
 
             return retResult;
@@ -143,6 +148,18 @@ namespace Adaption
         private Point[] SamplePoints(Point[] i_FullSet)
         {
             return Utils.GetIndexedSamplePoints(i_FullSet, NumberOfSamples);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <get>Return full matching object.</get>
+        public ShapeContextMatching Matching
+        {
+            get
+            {
+                return m_matching;
+            }
         }
     }
 
