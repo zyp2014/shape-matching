@@ -108,8 +108,8 @@ namespace Adaption
         {
             if (NumberOfSamples == Utils.sr_NoInit)
             {///if no amount of samples is set
-                //NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
-                NumberOfSamples = 25;
+                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
+                //NumberOfSamples = 25;
             }
             
             #region Default params override
@@ -134,7 +134,8 @@ namespace Adaption
             CShapeContextResultData retResult = new CShapeContextResultData(
                 m_sourcePoints,
                 m_matching.ResultPoints,
-                m_commonSize);
+                m_commonSize
+                );
 
             return retResult;
         }
@@ -168,11 +169,11 @@ namespace Adaption
     {
         private Bitmap  m_ResultingBitmap;
 
-        private Point[] m_SourceSamples = null;
-        private Point[] m_TargetSamples = null;
-
         private Point[] m_SourcePoints = null;
         private Point[] m_TargetPoints = null;
+
+        private Point[] m_SourceSamples = null;
+        private Point[] m_TargetSamples = null;
 
         private Size    m_CommonSize;
 
@@ -189,8 +190,20 @@ namespace Adaption
 
             m_CommonSize = i_resultSize;
             m_ResultingBitmap  = new Bitmap(i_resultSize.Width, i_resultSize.Height);
-            m_SourceSamples      = i_source;
-            m_TargetSamples      = i_target;
+            m_SourcePoints      = i_source;
+            m_TargetPoints      = i_target;
+        }
+
+        public CShapeContextResultData(
+            Point[] i_source,
+            Point[] i_target,
+            Size i_resultSize,
+            Point[] i_SourceSamples,
+            Point[] i_TargetSamples)
+            : this(i_source, i_target, i_resultSize)
+        {
+            m_SourceSamples = i_SourceSamples;
+            m_TargetSamples = i_TargetSamples;
         }
 
         #endregion
@@ -201,12 +214,35 @@ namespace Adaption
         {
             get 
             {
-                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_SourceSamples, SourceColor);
-                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_TargetSamples, TargetColor);
+                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_SourcePoints, SourceColor);
+                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_TargetPoints, TargetColor);
+
+                if ((m_SourceSamples != null && m_TargetSamples != null) &&
+                    (m_SourceSamples.Length == m_TargetSamples.Length))
+                {
+                    Graphics gfx = Graphics.FromImage(m_ResultingBitmap);
+                    placeMatches(ref gfx, m_SourceSamples, m_TargetSamples, MatchesColoringConvension);
+                    gfx.Dispose();
+                }
 
                 Image retImage = m_ResultingBitmap;
 
                 return retImage;
+            }
+        }
+
+        private void placeMatches(ref Graphics io_graphics, Point[] i_Source, Point[] i_Target, CloringConvension ColoringMethodHandler)
+        {
+            Pen linePen = new Pen(MatchesColor);
+
+            for (int i = 0; i < i_Source.Length; ++i)
+            {
+                if (ColoringMethodHandler != null)
+                {
+                    linePen.Color = ColoringMethodHandler(linePen.Color, i);
+                }
+
+                io_graphics.DrawLine(linePen, i_Source[i], i_Target[i]);
             }
         }
 
@@ -276,7 +312,7 @@ namespace Adaption
         {
             get
             {
-                return m_SourceSamples;
+                return m_SourcePoints;
             }
         }
 
@@ -284,7 +320,7 @@ namespace Adaption
         {
             get
             {
-                return m_TargetSamples;
+                return m_TargetPoints;
             }
         }
 
