@@ -108,8 +108,8 @@ namespace Adaption
         {
             if (NumberOfSamples == Utils.sr_NoInit)
             {///if no amount of samples is set
-                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
-                //NumberOfSamples = 25;
+                //NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
+                NumberOfSamples = 25;
             }
             
             #region Default params override
@@ -134,7 +134,9 @@ namespace Adaption
             CShapeContextResultData retResult = new CShapeContextResultData(
                 m_sourcePoints,
                 m_matching.ResultPoints,
-                m_commonSize
+                m_commonSize,
+                m_matching.LastSourceSamples,
+                m_matching.LastTargetSamples
                 );
 
             return retResult;
