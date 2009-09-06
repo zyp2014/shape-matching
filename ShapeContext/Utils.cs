@@ -277,6 +277,21 @@ namespace ShapeContext
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
+        public static Point[] ReindexArray(Point[] i_Original, int[] i_mapping)
+        {
+            if (i_Original.Length != i_mapping.Length)
+            {
+                return null;
+            }
 
+            Point[] retReIndexed = new Point[i_Original.Length];
+
+            for (int i = 0; i < i_Original.Length; ++i)
+            {
+                retReIndexed[i] = i_Original[i_mapping[i]];
+            }
+
+            return retReIndexed;
+        }
     }
 }

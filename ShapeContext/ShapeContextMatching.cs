@@ -90,7 +90,7 @@ namespace ShapeContext
             NumOfBins        = int.Parse(Resources.k_DefaultNumOfBins);
             NumOfIterations  = int.Parse(Resources.k_DefaultNumOfIterations);
             DistanceTreshold = double.Parse(Resources.k_DefaultDistanceTreshold);
-            m_Matches = null;
+            m_Matches        = null;
             
             m_Shape1Points  = i_Shape1Points;
             m_Shape2Points  = i_Shape2Points;
@@ -378,11 +378,36 @@ namespace ShapeContext
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public Point[] SourcePoints
+        {
+            get
+            {
+                return m_Shape1Points;
+            }
+        }
+        /// <summary>
         /// A method used to randomize selected amount of sample points.
         /// </summary>
         public SelectSamplesDelegate SelectionLogic;
 
         public AlignmentDelegate OnIterationEnd;
+
+        public Point[] LastSourceSamples
+        {
+            get
+            {
+                return m_Shape1Samples;
+            }
+        }
+        public Point[] LastTargetSamples
+        {
+            get
+            {
+                return Utils.ReindexArray(m_Shape2Samples, m_Matches);
+            }
+        }
         #endregion
 
     }
