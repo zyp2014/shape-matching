@@ -21,12 +21,9 @@ namespace Adaption
 
     public interface IMatchingAlgo : GUIIntegration.IMatchingAlgo
     {
-        ICData Run(Image i_Image1, Image i_Image2, CProperty[] i_AlgorithmProps);
-
         void Create(Image i_SourceImage, Image i_TargetImage);
         Type MyType { get; }
-        PropertyInfo[] PropertyList { get; }
-        CProperty[] PropertyStrings { get; set; }
+
         ICData Run();
     }
 }
