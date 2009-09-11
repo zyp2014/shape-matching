@@ -41,10 +41,30 @@ namespace ShapeContext
     /// </Guidance>
     /// <Institution>
     /// </Institution>
-    /// <Date>              Aug. - 2009                             </Date>
+    /// <Date>              Sep. - 2009                             </Date>
     /// <License>
-    /// This class library is free to use as long as it used unmodified, including the credits above.
-    /// For modifications please contact with one of the creators to get the approval.
+    ///The following code was created by Yanir Taflev followed by Shaul Gaidelman's implementation. 
+    ///It is released for use under the AFL v3.0 (Academic Free License):
+    ///This program is open source.  For license terms, see the AFL v3.0 terms at http://www.opensource.org/licenses/afl-3.0.php.
+    ///Copyright (c) 2008 - 2009, Y. Taflev by S. Gaidelman's implementation.
+    ///All rights reserved.
+    ///
+    ///     Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+    ///
+    ///         * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+    ///         * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+    ///
+    ///     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+    ///     "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+    ///     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+    ///     A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+    ///     CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+    ///     EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+    ///     PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+    ///     PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+    ///     LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+    ///     NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+    ///     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     /// </License>
     /// <summary>
     /// Shape context is an algorithm matching two monocolored (dark colored) , described by outlines, drawings.
@@ -77,7 +97,7 @@ namespace ShapeContext
         private Point[] m_Shape2Points;     // the imitation model points
         private Size    m_SurfaceSize;
 
-        
+        DoubleMatrix    m_costMatrix;
 
         private DoubleMatrix[] m_Shape1Histogram;
         private DoubleMatrix[] m_Shape2Histogram;
@@ -128,7 +148,7 @@ namespace ShapeContext
                 //There are some harshly wrong matches, will try eliminate them using a treshold.
                 //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
                 if (DistanceTreshold > 0)
-                {
+                {  
                     enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
                 }
 
@@ -163,16 +183,15 @@ namespace ShapeContext
 
         public int[] DetermineMatches(Point[] i_SourceSamples, Point[] i_TargetSamples)
         {
-            DoubleMatrix costMatrix;
             double shape1DistanceAvg, shape2DistanceAvg;
 
             //Calculate histogram - Next version can be in two threads
             m_Shape1Histogram = calcHistograms(i_SourceSamples, out shape1DistanceAvg);
             m_Shape2Histogram = calcHistograms(i_TargetSamples, out shape2DistanceAvg);
 
-            costMatrix = calculateCostMatrix();
+            m_costMatrix = calculateCostMatrix();
 
-            m_Matches = HungarianAlgorithm.Run(costMatrix);
+            m_Matches = HungarianAlgorithm.Run(m_costMatrix);
 
             return m_Matches;
         }
@@ -346,6 +365,23 @@ namespace ShapeContext
                 }
             }
             return sum / 2;
+
+            //for (int i = 0; i < rowLen; ++i)
+            //{
+            //    for (int j = 0; j < colLen; ++j)
+            //    {
+            //        // normelized value
+            //        val1 = i_Histogram1[i, j];
+            //        val2 = i_Histogram2[i, j];
+
+            //        if ((val1 + val2) != 0)
+            //        {
+            //            sum += Math.Pow(val1 - val2, 2);
+            //        }
+            //    }
+            //}
+            //return Math.Sqrt(sum);
+
         }
 
         #endregion

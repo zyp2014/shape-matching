@@ -19,18 +19,27 @@ namespace Adaption
         {
             get
             {
-                Type propertyType = typeof(PropertyInfo[]);
-                Func<PropertyInfo, bool> isNotPropertyInfoTypePredicate = (property) =>
+                Func<PropertyInfo,int, bool> FilterValidTypesPredicate = (currProperty,row) =>
                     {
-                        if (property.GetType() == propertyType)
+                        Type currType = currProperty.PropertyType;
+
+                        if (((currType != typeof(Color))    &&
+                            //(currType != typeof(Point[]))  &&
+                            //(currType != typeof(String))    &&
+                            (currType != typeof(double))    &&
+                            (currType != typeof(float))     &&
+                            (currType != typeof(int))       &&
+                            (currType != typeof(PropertyInfo[]))) &&
+                            (currProperty.GetValue(this, null) == null))
                         {
                             return false;
                         }
-
                         return true;
                     };
-                return
-                MyType.GetProperties().Where<PropertyInfo>(isNotPropertyInfoTypePredicate).ToArray<PropertyInfo>();
+
+                PropertyInfo[] retProps = MyType.GetProperties();
+                return //--> (next line)
+                retProps.Where<PropertyInfo>(FilterValidTypesPredicate).ToArray<PropertyInfo>();
             }
         }
 

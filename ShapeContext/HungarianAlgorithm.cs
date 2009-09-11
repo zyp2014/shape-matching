@@ -112,14 +112,8 @@ namespace ShapeContext
             //// ok now we should have assigned everything
             //// take the starred zeroes in each column as the correct assignments
 
-            int rowLen = starsByRowArr.Length;
-            int[] retval = new int[rowLen];
+            int[] retval = starsByRowArr;
 
-            // retval = assigned job for 'i'
-            for (int i = 0; i < rowLen; ++i)
-            {
-                retval[i] = starsByRowArr[i];
-            }
             return retval;
         }
 

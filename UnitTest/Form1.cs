@@ -10,6 +10,7 @@ using ShapeContext;
 using LiniarAlgebra;
 using PCA;
 using Adaption;
+using System.Reflection;
 
 namespace UnitTest
 {
@@ -146,16 +147,16 @@ namespace UnitTest
         {
             AlgoFactory factory = new AlgoFactory();
             sketch.Image = factory.GetAlgo(AlgoFactory.ShapeContext).Run(
-                Image.FromFile(@"..\..\..\Example - 1.png"),
-                Image.FromFile(@"..\..\..\Example - 2.png"), null).ResultImage;
+                Image.FromFile(@"..\..\..\Example - 1.jpg"),
+                Image.FromFile(@"..\..\..\Example - 2.jpg"), null).ResultImage;
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
             AlgoFactory factory = new AlgoFactory();
             sketch.Image = factory.GetAlgo(AlgoFactory.PCA).Run(
-                Image.FromFile(@"..\..\..\Example - 1.png"),
-                Image.FromFile(@"..\..\..\Example - 2.png"), null).ResultImage;
+                Image.FromFile(@"..\..\..\Example - 1.jpg"),
+                Image.FromFile(@"..\..\..\Example - 1.jpg"), null).ResultImage;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -172,6 +173,7 @@ namespace UnitTest
         {
             AlgoFactory factory = new AlgoFactory();
             IMatchingAlgo algo = factory.GetAlgo(AlgoFactory.ModifiedShapeContext);
+            PropertyInfo[] pi = algo.PropertyList;
             algo.Create(
                 Image.FromFile(@"..\..\..\Example - 1.png"),
                 Image.FromFile(@"..\..\..\Example - 2.png"));
