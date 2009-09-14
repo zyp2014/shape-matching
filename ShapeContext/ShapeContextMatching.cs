@@ -6,6 +6,7 @@ using System.Drawing;
 using ShapeContext.Properties;
 
 using LiniarAlgebra;
+using System.Collections;
 
 
 namespace ShapeContext
@@ -16,7 +17,7 @@ namespace ShapeContext
     /// </summary>
     /// <param name="i_FullSet">A set of points to select from</param>
     /// <returns>An array of selected points</returns>
-    public delegate Point[] SelectSamplesDelegate(Point[] i_FullSet);
+    public delegate Point[] SelectSamplesDelegate(Point[] i_FullSet, int i_numOfPoints);
     /// <summary>
     /// 
     /// </summary>
@@ -132,23 +133,47 @@ namespace ShapeContext
 
             double euMinDistance = double.MaxValue;
             
-            m_Shape1Samples = SelectionLogic(fullSourceSet);
+            m_Shape1Samples = SelectionLogic(fullSourceSet, -1);
 
+            OnBetweenIterations(ref fullTargetSet);
+
+            //Selecting fresh target points set                
+            m_Shape2Samples = SelectionLogic(fullTargetSet, NumOfIterations * m_Shape1Samples.Length);
+            //Matching using core Shape context algorithms
+            DetermineMatches(m_Shape1Samples, m_Shape2Samples);
+
+            //Converting and sequencing the samples according to the matchings we've found
+            Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
+            //There are some harshly wrong matches, will try eliminate them using a treshold.
+            //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
+            if (DistanceTreshold > 0)
+            {
+                enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
+            }
+
+            //Preparing TPS algorithm
+            TPS tpsWarpping = new TPS(m_SurfaceSize, SourceTargetMap.Element2);
+            //Calculating transformation
+            tpsWarpping.Calculate(SourceTargetMap.Element1);
+            //Interpolating whole target
+            tpsWarpping.Interpolate(ref fullTargetSet);
+
+            #region Preveous Method
+            /*
             do
             {
                 OnBetweenIterations(ref fullTargetSet);
 
                 //Selecting fresh target points set                
-                m_Shape2Samples = SelectionLogic(fullTargetSet);
+                m_Shape2Samples = SelectionLogic(fullTargetSet, -1);
                 //Matching using core Shape context algorithms
                 DetermineMatches(m_Shape1Samples, m_Shape2Samples);
-
                 //Converting and sequencing the samples according to the matchings we've found
                 Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
                 //There are some harshly wrong matches, will try eliminate them using a treshold.
                 //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
                 if (DistanceTreshold > 0)
-                {  
+                {
                     enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
                 }
 
@@ -166,9 +191,9 @@ namespace ShapeContext
                     euMinDistance = euNewDistance;
                     tpsWarpping.Interpolate(ref fullTargetSet);
                 }
-
             } while (iN-- > 0);
-
+            */
+            #endregion
             m_Shape2Points = fullTargetSet;
 
         }
@@ -191,12 +216,74 @@ namespace ShapeContext
 
             m_costMatrix = calculateCostMatrix();
 
-            m_Matches = HungarianAlgorithm.Run(m_costMatrix);
+            //m_Matches = HungarianAlgorithm.Run(m_costMatrix);
+            Dictionary<int,Pair<int,double>> matchingDetails;
+            m_Matches = determineBestDistance(m_costMatrix, out matchingDetails); //Alternative method to find best matches
 
             return m_Matches;
         }
 
+
+
         #region Private Section
+
+        private int[] determineBestDistance(DoubleMatrix m_costMatrix,out Dictionary<int, Pair<int, double>> o_MatchingData)
+        {
+            int[] retSuiteIndexes = new int[m_costMatrix.RowsCount];
+
+            o_MatchingData = new Dictionary<int, Pair<int, double>>();
+            Queue<int> waitingToMatch = new Queue<int>();
+
+            //Initializing queue
+            for (int row = 0; row < m_costMatrix.RowsCount; ++row)
+            {
+                waitingToMatch.Enqueue(row);
+            }
+
+            while (waitingToMatch.Count != 0)
+            {
+                int currSourceIndex = waitingToMatch.Dequeue();
+
+                int lowIndex = -1;
+                double lowestValue = double.MaxValue;
+                
+
+                for (int col = 0; col < m_costMatrix.ColumnsCount; ++col)
+                {
+                    if (lowestValue > m_costMatrix[currSourceIndex, col])
+                    {
+                        bool isBetterMatch = false;
+
+                        if ((o_MatchingData.ContainsKey(col)) &&
+                            (o_MatchingData[col].Element2 > m_costMatrix[currSourceIndex, col]))
+                        {
+
+                            waitingToMatch.Enqueue(o_MatchingData[col].Element1);
+                            o_MatchingData.Remove(col);
+                            isBetterMatch = true;
+
+                        }
+
+                        if ((isBetterMatch) || (!o_MatchingData.ContainsKey(col)))
+                        {
+                            o_MatchingData.Remove(lowIndex);
+                            lowestValue = m_costMatrix[currSourceIndex, col];
+                            lowIndex = col;
+
+                            Pair<int, double> matchData;
+                            matchData.Element1 = currSourceIndex;
+                            matchData.Element2 = lowestValue;
+                            o_MatchingData.Add(lowIndex, matchData);                            
+                        }
+
+                    }
+                }
+
+                retSuiteIndexes[currSourceIndex] = lowIndex;
+            }
+
+            return retSuiteIndexes;
+        }
 
         private void reduceNullDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets)
         {
@@ -240,6 +327,7 @@ namespace ShapeContext
             {
                 throw new ShapeContextAlgoException("i_TresholdFromSurfSize parameter is not in percents format");
             }
+
             double[] treshold = new double[2];
 
             treshold[sr_Xaxis] = (double)m_SurfaceSize.Width / 100.0 * i_TresholdFromSurfSize;
@@ -313,20 +401,22 @@ namespace ShapeContext
         /// <returns></returns>
         private DoubleMatrix calculateCostMatrix()
         {
-            if (m_Shape1Histogram.Length != m_Shape2Histogram.Length)
+            if (m_Shape1Histogram.Length > m_Shape2Histogram.Length)
             {
-                throw new ShapeContextAlgoException("Histogram doesn't have same points number");
+                throw new ShapeContextAlgoException("The source histograms number doesn't cover target's number");
             }
 
-            int N = m_Shape1Histogram.Length;
-            DoubleMatrix histogram1, histogram2;
-            DoubleMatrix costMatrix = new DoubleMatrix(N);
+            int N1 = m_Shape1Histogram.Length;
+            int N2 = m_Shape2Histogram.Length;
 
-            for (int i = 0; i < N; ++i)
+            DoubleMatrix histogram1, histogram2;
+            DoubleMatrix costMatrix = new DoubleMatrix(N1,N2);
+
+            for (int i = 0; i < N1; ++i)
             { // go over all points histograms
 
                 histogram1 = m_Shape1Histogram[i];
-                for (int j = 0; j < N; ++j)
+                for (int j = 0; j < N2; ++j)
                 {
                     histogram2 = m_Shape2Histogram[j];
 

@@ -92,24 +92,32 @@ namespace Adaption
             return retList;
         }
 
-        public static IntMatrix ToBinaryMap(Image i_GrayScaleImage, Color i_Treshold,Size i_newCanvasSize)
+        public static IntMatrix ToBinaryMap(Image i_GrayScaleImage, Color i_Treshold, Size i_newCanvasSize)
         {
             IntMatrix retBinaryMap = new IntMatrix(i_newCanvasSize.Height, i_newCanvasSize.Width);
             Bitmap bitmap = new Bitmap(i_GrayScaleImage);
             ///Logic for single cell
             Func<int, int, int, int> filterBlacks = (row, col, val) =>
                 {
-                    Color currColor = bitmap.GetPixel(col, row);
-                    if (currColor.R < i_Treshold.R &&
-                        currColor.G < i_Treshold.G &&
-                        currColor.B < i_Treshold.B)
+                    if (row < bitmap.Height && col < bitmap.Width)
                     {
-                        return sr_Line;
+                        Color currColor = bitmap.GetPixel(col, row);
+                        if (currColor.R < i_Treshold.R &&
+                            currColor.G < i_Treshold.G &&
+                            currColor.B < i_Treshold.B)
+                        {
+                            return sr_Line;
+                        }
+                        else
+                        {
+                            return sr_NoLine;
+                        }
                     }
                     else
                     {
                         return sr_NoLine;
                     }
+
                 };
             ///Applying logic for whole matrix
             retBinaryMap.Iterate(filterBlacks);

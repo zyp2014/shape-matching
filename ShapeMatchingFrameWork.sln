@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Adaption", "Adaption\Adapti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HausdorffDistance", "HausdorffDistance\HausdorffDistance.csproj", "{87E8CEB0-E6A7-4AF8-B41B-CE1BE8E05E3B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI", "GUI\GUI.csproj", "{0DB4E2E6-DFFA-4792-B262-E6352B9F6C59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{87E8CEB0-E6A7-4AF8-B41B-CE1BE8E05E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87E8CEB0-E6A7-4AF8-B41B-CE1BE8E05E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87E8CEB0-E6A7-4AF8-B41B-CE1BE8E05E3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DB4E2E6-DFFA-4792-B262-E6352B9F6C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DB4E2E6-DFFA-4792-B262-E6352B9F6C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DB4E2E6-DFFA-4792-B262-E6352B9F6C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DB4E2E6-DFFA-4792-B262-E6352B9F6C59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -17,6 +17,8 @@ namespace Adaption
         Size OptimalImageSize { get; }
         Type MyType { get; }
         PropertyInfo[] PropertyList { get; }
+        Color SourceColor { get; set; }
+        Color TargetColor { get; set; }
     }
 
     public interface IMatchingAlgo : GUIIntegration.IMatchingAlgo

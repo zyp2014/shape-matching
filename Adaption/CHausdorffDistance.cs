@@ -148,5 +148,34 @@ namespace Adaption
             ///Color.FromArgb(int.MaxValue - ((int)Math.Round(i_Value / (double)i_LocalMax * int.MaxValue)));
         }
         #endregion
+
+        #region ICData Obsolete Members
+
+
+        public Color SourceColor
+        {
+            get
+            {
+                return Color.Empty;
+            }
+            set
+            {
+
+            }
+        }
+
+        public Color TargetColor
+        {
+            get
+            {
+                return Color.Empty;
+            }
+            set
+            {
+
+            }
+        }
+
+        #endregion
     }
 }

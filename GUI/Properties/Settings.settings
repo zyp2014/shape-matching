@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="SourceImagesFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\..\..\Images\Sources</Value>
+    </Setting>
+    <Setting Name="TargetImagesFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">.\..\..\Images\Targets</Value>
+    </Setting>
+    <Setting Name="KnownImageTypes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">*.bmp|*.jpg|*.gif|*.jpeg|*.png</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

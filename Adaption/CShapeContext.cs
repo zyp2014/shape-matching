@@ -149,9 +149,16 @@ namespace Adaption
 
         #endregion
 
-        private Point[] SamplePoints(Point[] i_FullSet)
+        private Point[] SamplePoints(Point[] i_FullSet, int i_NumOfSamples)
         {
-            return Utils.GetIndexedSamplePoints(i_FullSet, NumberOfSamples);
+            if (i_NumOfSamples > 0)
+            {
+                return Utils.GetIndexedSamplePoints(i_FullSet, i_NumOfSamples);
+            }
+            else
+            {
+                return Utils.GetIndexedSamplePoints(i_FullSet, NumberOfSamples);
+            }
         }
 
         /// <summary>

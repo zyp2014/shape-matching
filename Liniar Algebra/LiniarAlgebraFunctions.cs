@@ -66,10 +66,14 @@ namespace LiniarAlgebra
         }
 
         public static DoubleMatrix PointArrayToMatrix(Point[] i_PTarray, int[] i_mapping)
-        {
-            DoubleMatrix retMatrix = new DoubleMatrix(i_PTarray.Length, sr_2D);
-            bool useMapping = (i_mapping!= null) && (i_mapping.Length == i_PTarray.Length);
-            for (int row = 0; row < i_PTarray.Length; ++row)
+        {            
+            bool useMapping = (i_mapping != null);
+
+            int length = (useMapping) ? i_mapping.Length : i_PTarray.Length;
+
+            DoubleMatrix retMatrix = new DoubleMatrix(length, sr_2D);
+
+            for (int row = 0; row < length; ++row)
             {
                 if (useMapping)
                 {
