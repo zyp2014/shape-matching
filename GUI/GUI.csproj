@@ -35,11 +35,11 @@
   <ItemGroup>
     <Reference Include="Filmstrip, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\debug\Filmstrip.dll</HintPath>
+      <HintPath>..\dll\Filmstrip.dll</HintPath>
     </Reference>
     <Reference Include="GUIIntegration, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\debug\GUIIntegration.dll</HintPath>
+      <HintPath>..\dll\GUIIntegration.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
