@@ -30,7 +30,7 @@ namespace ShapeContext
     /// <ClassName>         ShapeContextMatching                    </ClassName>
     /// <OriginalAlgorithmBy>**************************************************
     ///     <Name>          Shaul Gaidelman                         </Name>
-    ///     <Email>         shaulg@...                              </Email>
+    ///     <Email>         happy_@inter.net.il                     </Email>
     /// </OriginalAlgorithmBy>
     /// <RefactoredAndModified>
     ///     <Name>          Yanir Tafkev                            </Name>
@@ -44,7 +44,7 @@ namespace ShapeContext
     /// </Institution>
     /// <Date>              Sep. - 2009                             </Date>
     /// <License>
-    ///The following code was created by Yanir Taflev followed by Shaul Gaidelman's implementation. 
+    ///The following code was created by Yanir Taflev according Shaul Gaidelman's implementation. 
     ///It is released for use under the AFL v3.0 (Academic Free License):
     ///This program is open source.  For license terms, see the AFL v3.0 terms at http://www.opensource.org/licenses/afl-3.0.php.
     ///Copyright (c) 2008 - 2009, Y. Taflev by S. Gaidelman's implementation.
