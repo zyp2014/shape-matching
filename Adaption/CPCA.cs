@@ -54,6 +54,7 @@ namespace Adaption
             matching.Calculate();
 
             CPCAresultData retResult = new CPCAresultData(m_sourceMatrix, matching.Result, m_commonSize, matching);
+            retResult.IncludeSource = IncludeSource;
             return retResult;
         }
 
@@ -69,15 +70,12 @@ namespace Adaption
         #endregion
     }
 
-    public class CPCAresultData : ICData
+    public class CPCAresultData : ResultBase
     {
-        public static readonly int sr_X = 0;
-        public static readonly int sr_Y = 1;
-
         private DoubleMatrix    m_Source = null;
         private DoubleMatrix    m_Target = null;
         private DoubleMatrix    m_GlobalShift = null;
-        private Bitmap          m_ResultlingBitmap = null;
+        
         private PCAMatching     m_Matching = null;
         private Size            m_CommonSize;
 
@@ -97,24 +95,28 @@ namespace Adaption
         private Size ShiftToPozitives(ref DoubleMatrix io_Source, ref DoubleMatrix io_Target, Size i_ImageCurrSize)
         {
             DoubleMatrix minMaxTarget = Utils.ShiftToPositives(ref io_Target,io_Source);
-            return new Size((int)Math.Max(minMaxTarget[sr_X, Utils.sr_MaxRow], i_ImageCurrSize.Width),
-                            (int)Math.Max(minMaxTarget[sr_Y, Utils.sr_MaxRow], i_ImageCurrSize.Height));
+            return new Size((int)Math.Max(minMaxTarget[sr_X, Utils.sr_MaxCol], i_ImageCurrSize.Width),
+                            (int)Math.Max(minMaxTarget[sr_Y, Utils.sr_MaxCol], i_ImageCurrSize.Height));
         }
 
-        #region ICData Members
+        #region ResultBase Members
 
-        public Image ResultImage
+        public override Image ResultImage
         {
             get
             {
-                Utilities.PutOnBitmap(ref m_ResultlingBitmap, m_Source, SourceColor);
+                if (IncludeSource)
+                {
+                    Utilities.PutOnBitmap(ref m_ResultlingBitmap, m_Source, SourceColor);  
+                }
+                
                 Utilities.PutOnBitmap(ref m_ResultlingBitmap, m_Target, TargetColor);
 
                 return m_ResultlingBitmap;
             }
         }
 
-        public Image SourceImage
+        public override Image SourceImage
         {
             get
             {
@@ -126,7 +128,7 @@ namespace Adaption
             }
         }
 
-        public Image TargetImage
+        public override Image TargetImage
         {
             get
             {
@@ -138,7 +140,7 @@ namespace Adaption
             }
         }
 
-        public Size OptimalImageSize
+        public override Size OptimalImageSize
         {
             get 
             {
@@ -146,7 +148,7 @@ namespace Adaption
             }
         }
 
-        public Type MyType
+        public override Type MyType
         {
             get 
             {
@@ -154,7 +156,7 @@ namespace Adaption
             }
         }
 
-        public PropertyInfo[] PropertyList
+        public override PropertyInfo[] PropertyList
         {
             get
             {
@@ -162,14 +164,14 @@ namespace Adaption
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Set these properties before using ResultImage prop..
         /// </summary>
         #region PreRun Properties
-        public Color SourceColor { get; set; }
-        public Color TargetColor { get; set; }
+        public override Color SourceColor { get; set; }
+        public override Color TargetColor { get; set; }
+        #endregion
+
         #endregion
 
         #region PostRun Properties - over to ICData Members

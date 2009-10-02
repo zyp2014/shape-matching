@@ -9,8 +9,8 @@ namespace PCA
 {
     public static class Utils
     {
-        public static readonly int sr_MinRow = 0;
-        public static readonly int sr_MaxRow = 1;
+        public static readonly int sr_MinCol = 0;
+        public static readonly int sr_MaxCol = 1;
 
         public static void SubstractScalarsByDims(ref DoubleMatrix io_leftHandMatrix, DoubleMatrix i_rightHandVector)
         {
@@ -42,15 +42,15 @@ namespace PCA
 
             Func<int, int, double, double> prepareGrowingCell = (row, col, value) =>
             {
-                if (retMinMax[row, sr_MinRow] < 0)
+                if (retMinMax[row, sr_MinCol] < 0)
                 {
-                    retMinMax[row, sr_MinRow] = Math.Abs(retMinMax[row, sr_MinRow]);
-                    retMinMax[row, sr_MaxRow] += retMinMax[row, sr_MinRow];
-                    return retMinMax[row, sr_MinRow];
+                    retMinMax[row, sr_MinCol] = Math.Abs(retMinMax[row, sr_MinCol]);
+                    retMinMax[row, sr_MaxCol] += retMinMax[row, sr_MinCol];
+                    return retMinMax[row, sr_MinCol];
                 }
                 else
                 {
-                    retMinMax[row, sr_MinRow] = value;
+                    retMinMax[row, sr_MinCol] = value;
                     return value;
                 }
             };
@@ -73,8 +73,8 @@ namespace PCA
 
             Func<int, int, double, double> calcAVG = (rows, cols, value) =>
             {
-                retMinMaxMatrix[rows, sr_MinRow] = Math.Min(retMinMaxMatrix[rows, 0], value);
-                retMinMaxMatrix[rows, sr_MaxRow] = Math.Max(retMinMaxMatrix[rows, 1], value);
+                retMinMaxMatrix[rows, sr_MinCol] = Math.Min(retMinMaxMatrix[rows, 0], value);
+                retMinMaxMatrix[rows, sr_MaxCol] = Math.Max(retMinMaxMatrix[rows, 1], value);
                 return value;
             };
 

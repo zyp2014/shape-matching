@@ -130,10 +130,10 @@ namespace Adaption
             IntMatrix retMap = new IntMatrix(i_newCanvasSize.Height, i_newCanvasSize.Width);
             retMap.Init(sr_NoLine);
 
-            for (int row = 0; row < i_PointSet.RowsCount; ++row)
+            for (int col = 0; col < i_PointSet.ColumnsCount; ++col)
             {
-                int PixelRow = (int)i_PointSet[row, sr_Yrow];
-                int PixelCol = (int)i_PointSet[row, sr_Xrow];
+                int PixelRow = (int)i_PointSet[sr_Yrow, col];
+                int PixelCol = (int)i_PointSet[sr_Xrow, col];
                 retMap[PixelRow, PixelCol] = sr_Line;
             }
             return retMap;

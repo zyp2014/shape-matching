@@ -11,14 +11,15 @@ namespace Adaption
 {
     public interface ICData : GUIIntegration.ICData
     {
-        Image ResultImage { get; }
-        Image SourceImage { get; }
-        Image TargetImage { get; }
-        Size OptimalImageSize { get; }
-        Type MyType { get; }
-        PropertyInfo[] PropertyList { get; }
-        Color SourceColor { get; set; }
-        Color TargetColor { get; set; }
+        Image           ResultImage      { get; }
+        Image           SourceImage      { get; }
+        Image           TargetImage      { get; }
+        Size            OptimalImageSize { get; }
+        Type            MyType           { get; }
+        PropertyInfo[]  PropertyList     { get; }
+        Color           SourceColor      { get; set; }
+        Color           TargetColor      { get; set; }
+        bool            IncludeSource    { get; set; }
     }
 
     public interface IMatchingAlgo : GUIIntegration.IMatchingAlgo

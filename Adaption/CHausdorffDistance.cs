@@ -68,7 +68,7 @@ namespace Adaption
 
     }
 
-    public class HausdorffMatchingResult : ICData
+    public class HausdorffMatchingResult : ResultBase
     {
         private IntMatrix m_Result  = null;
         private IntMatrix m_Side1   = null;
@@ -82,9 +82,9 @@ namespace Adaption
             ColoringFunction = defaultColoringConvension;
         }
 
-        #region ICData Members
+        #region ResultBase Members
 
-        public Image ResultImage
+        public override Image ResultImage
         {
             get
             {
@@ -92,7 +92,7 @@ namespace Adaption
             }
         }
 
-        public Image SourceImage
+        public override Image SourceImage
         {
             get 
             {
@@ -100,7 +100,7 @@ namespace Adaption
             }
         }
 
-        public Image TargetImage
+        public override Image TargetImage
         {
             get 
             {
@@ -108,7 +108,7 @@ namespace Adaption
             }
         }
 
-        public Size OptimalImageSize
+        public override Size OptimalImageSize
         {
             get 
             {
@@ -116,7 +116,7 @@ namespace Adaption
             }
         }
 
-        public Type MyType
+        public override Type MyType
         {
             get
             {
@@ -124,13 +124,41 @@ namespace Adaption
             }
         }
 
-        public PropertyInfo[] PropertyList
+        public override PropertyInfo[] PropertyList
         {
             get 
             {
                 return MyType.GetProperties();
             }
         }
+
+        #region Obsolete Members
+
+        public override Color SourceColor
+        {
+            get
+            {
+                return Color.Empty;
+            }
+            set
+            {
+
+            }
+        }
+        
+        public override Color TargetColor
+        {
+            get
+            {
+                return Color.Empty;
+            }
+            set
+            {
+
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -149,33 +177,6 @@ namespace Adaption
         }
         #endregion
 
-        #region ICData Obsolete Members
 
-
-        public Color SourceColor
-        {
-            get
-            {
-                return Color.Empty;
-            }
-            set
-            {
-
-            }
-        }
-
-        public Color TargetColor
-        {
-            get
-            {
-                return Color.Empty;
-            }
-            set
-            {
-
-            }
-        }
-
-        #endregion
     }
 }

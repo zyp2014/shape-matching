@@ -10,6 +10,24 @@ namespace Adaption
 {
     public abstract class AlgorithmBase : IMatchingAlgo
     {
+        public static readonly int sr_X = 0;
+        public static readonly int sr_Y = 1;
+
+        public AlgorithmBase()
+        {
+            TresholdColor = Utilities.sr_defaultTresholdColor;
+            IncludeSource = true;
+        }
+        /// <summary>
+        /// Determines which colors will be selected for processing,
+        /// Lighter colors(Higher values) than the treshold will be dropped.
+        /// This property has to be set before Create(...) method. otherwise not consedered.
+        /// </summary>  
+        public Color TresholdColor { get; set; }
+
+        public bool IncludeSource { get; set; }
+        
+
         public abstract void Create(Image i_SourceImage, Image i_TargetImage);
 
         public abstract Type MyType
@@ -91,5 +109,28 @@ namespace Adaption
         }
 
         #endregion
+    }
+
+    public abstract class ResultBase : ICData
+    {
+        public static readonly int sr_X = 0;
+        public static readonly int sr_Y = 1;
+
+        protected Bitmap m_ResultlingBitmap = null;
+
+        public bool IncludeSource { get; set; }
+        public ResultBase()
+        {
+            IncludeSource = true;
+        }
+
+        public abstract Image           ResultImage      { get; }
+        public abstract Image           SourceImage      { get; }
+        public abstract Image           TargetImage      { get; }
+        public abstract Size            OptimalImageSize { get; }
+        public abstract Type            MyType           { get; }
+        public abstract PropertyInfo[]  PropertyList     { get; }
+        public abstract Color           SourceColor      { get; set; }
+        public abstract Color           TargetColor      { get; set; }
     }
 }

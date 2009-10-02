@@ -24,7 +24,7 @@ namespace GUI
         private CPCA                m_currPCAalgo;
         private CHausdorffDistance  m_currHausdorffalgo;
         private CShapeContext       m_currShapeContextalgo;
-
+        private CPipedAlgorithm     m_currPipedalgo;
         public MainForm()
         {
             InitializeComponent();
@@ -39,10 +39,12 @@ namespace GUI
             m_currPCAalgo           = new CPCA();
             m_currHausdorffalgo     = new CHausdorffDistance();
             m_currShapeContextalgo  = new CShapeContext();
+            m_currPipedalgo         = new CPipedAlgorithm();
 
             propertyGrid1.SelectedObject = m_currPCAalgo;
             propertyGrid2.SelectedObject = m_currHausdorffalgo;
             propertyGrid3.SelectedObject = m_currShapeContextalgo;
+            propertyGrid4.SelectedObject = m_currPipedalgo;
         }
 
         private void fillImageList(FilmstripControl i_filmstripControl, List<Image> i_Images)
@@ -83,30 +85,60 @@ namespace GUI
         {
             m_CurrAlgorithmAlias = AlgoFactory.PCA;
             m_CurrMatchingAlgo = m_currPCAalgo;
-            m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
-            m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
-            ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
-            m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            try
+            {
+                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
+                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
+                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
+                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //m_currPCAalgo = new CPCA();
+            propertyGrid1.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             m_CurrAlgorithmAlias = AlgoFactory.Hausdorff;
             m_CurrMatchingAlgo = m_currHausdorffalgo;
-            m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
-            m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
-            ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
-            m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            try
+            {
+                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
+                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
+                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
+                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //m_currHausdorffalgo = new CHausdorffDistance();
+            propertyGrid2.Refresh();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             m_CurrAlgorithmAlias = AlgoFactory.ShapeContext;
             m_CurrMatchingAlgo = m_currShapeContextalgo;
-            m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
-            m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
-            ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
-            m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            try
+            {
+                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
+                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
+                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
+                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            //m_currShapeContextalgo = new CShapeContext();
+            propertyGrid3.Refresh();
         }
 
         private void ResultPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -160,7 +192,26 @@ namespace GUI
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //TargetsFilmStrip.
+            
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            m_CurrAlgorithmAlias = AlgoFactory.Pipeline;
+            m_CurrMatchingAlgo = m_currPipedalgo;
+            try
+            {
+                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
+                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
+                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
+                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            propertyGrid4.Refresh();
         }
     }
 }

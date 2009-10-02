@@ -75,7 +75,6 @@ namespace PCA
         private DoubleMatrix m_EigenTargetMatrix = null;
 
         private DoubleMatrix m_ResultTarget      = null;
-
         #endregion
 
         /// <summary>
@@ -120,6 +119,8 @@ namespace PCA
 
             m_ResultTarget = translate(i_TargetTransform.CenteredPoints, angle, scaleByX, scaleByY);
             Utils.AddScalarsByDims(ref m_ResultTarget, i_SourceTransform.AverageByDimension);
+            DoubleMatrix sourcePoints = i_SourceTransform.CenteredPoints;
+            Utils.AddScalarsByDims(ref sourcePoints, i_SourceTransform.AverageByDimension);
         }
 
         private DoubleMatrix translate(DoubleMatrix i_CenteredMatrix, double i_Angle, double i_XScale, double i_YSale)

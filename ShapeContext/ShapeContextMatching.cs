@@ -18,11 +18,11 @@ namespace ShapeContext
     /// <param name="i_FullSet">A set of points to select from</param>
     /// <returns>An array of selected points</returns>
     public delegate Point[] SelectSamplesDelegate(Point[] i_FullSet, int i_numOfPoints);
+
     /// <summary>
-    /// 
+    /// A logic dilivered to interpolate according to the matchings.
     /// </summary>
-    /// <param name="i_PointsToAlign"></param>
-    public delegate void AlignmentDelegate(ref Point[] i_PointsToAlign);
+    public delegate void AlignmentDelegate(Size i_SurfaceSize, Pair<DoubleMatrix, DoubleMatrix> i_SourceToTargetMapping, ref Point[] io_DrawingPoints);
     #endregion
     /// <Name>          A Shape Context algorithm based matching.   </Name>
     /// <Version>           0.1a Pre release                        </Version>
@@ -130,33 +130,22 @@ namespace ShapeContext
 
             Point[] fullSourceSet = m_Shape1Points;
             Point[] fullTargetSet = m_Shape2Points;
-
-            double euMinDistance = double.MaxValue;
             
             m_Shape1Samples = SelectionLogic(fullSourceSet, -1);
 
-            OnBetweenIterations(ref fullTargetSet);
-
-            //Selecting fresh target points set                
+            //Selecting fresh target points set using wide target set to ensure better matching
             m_Shape2Samples = SelectionLogic(fullTargetSet, NumOfIterations * m_Shape1Samples.Length);
+
             //Matching using core Shape context algorithms
             DetermineMatches(m_Shape1Samples, m_Shape2Samples);
 
             //Converting and sequencing the samples according to the matchings we've found
             Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
-            //There are some harshly wrong matches, will try eliminate them using a treshold.
-            //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
-            if (DistanceTreshold > 0)
-            {
-                enforceEuDistance(ref SourceTargetMap, DistanceTreshold);
-            }
 
-            //Preparing TPS algorithm
-            TPS tpsWarpping = new TPS(m_SurfaceSize, SourceTargetMap.Element2);
-            //Calculating transformation
-            tpsWarpping.Calculate(SourceTargetMap.Element1);
-            //Interpolating whole target
-            tpsWarpping.Interpolate(ref fullTargetSet);
+            if (AlignmentLogic != null)
+            {
+                AlignmentLogic(m_SurfaceSize, SourceTargetMap, ref fullTargetSet);
+            }            
 
             #region Preveous Method
             /*
@@ -195,15 +184,23 @@ namespace ShapeContext
             */
             #endregion
             m_Shape2Points = fullTargetSet;
-
         }
 
-        private void OnBetweenIterations(ref Point[] fullTargetSet)
+        public void StandardAlignmentLogic(Size i_SurfaceSize, Pair<DoubleMatrix, DoubleMatrix> i_SourceToTargetMapping, ref Point[] io_DrawingPoints)
         {
-            if (OnIterationEnd != null)
+            //There are some harshly wrong matches, will try eliminate them using a treshold.
+            //Without this stage, TPS can ruin our data in a way that it wont be usefull anymore.
+            if (DistanceTreshold > 0)
             {
-                OnIterationEnd(ref fullTargetSet);
+                enforceEuDistance(ref i_SourceToTargetMapping, DistanceTreshold);
             }
+
+            //Preparing TPS algorithm
+            TPS tpsWarpping = new TPS(i_SurfaceSize, i_SourceToTargetMapping.Element2);
+            //Calculating transformation
+            tpsWarpping.Calculate(i_SourceToTargetMapping.Element1);
+            //Interpolating whole target
+            tpsWarpping.Interpolate(ref io_DrawingPoints);
         }
 
         public int[] DetermineMatches(Point[] i_SourceSamples, Point[] i_TargetSamples)
@@ -222,8 +219,6 @@ namespace ShapeContext
 
             return m_Matches;
         }
-
-
 
         #region Private Section
 
@@ -504,7 +499,7 @@ namespace ShapeContext
         }
 
         /// <summary>
-        /// 
+        /// The full source points set
         /// </summary>
         public Point[] SourcePoints
         {
@@ -513,12 +508,13 @@ namespace ShapeContext
                 return m_Shape1Points;
             }
         }
+
         /// <summary>
         /// A method used to randomize selected amount of sample points.
         /// </summary>
         public SelectSamplesDelegate SelectionLogic;
 
-        public AlignmentDelegate OnIterationEnd;
+        public AlignmentDelegate AlignmentLogic;
 
         public Point[] LastSourceSamples
         {
@@ -527,6 +523,7 @@ namespace ShapeContext
                 return m_Shape1Samples;
             }
         }
+
         public Point[] LastTargetSamples
         {
             get

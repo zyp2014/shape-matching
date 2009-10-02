@@ -9,9 +9,9 @@ namespace Adaption
     public class AlgoFactory : IAlgoFactory
     {
         public static readonly string ShapeContext = "Shape context";
-        public static readonly string ModifiedShapeContext = "Modified Shape context";
-        public static readonly string PCA = "Princilal Component Analysis";
-        public static readonly string Hausdorff = "Hausdorrf alignment";
+        public static readonly string Pipeline = "Pipeline";
+        public static readonly string PCA = "Principal Component Analysis";
+        public static readonly string Hausdorff = "Hausdorff alignment";
 
         private  Dictionary<string, IMatchingAlgo> m_AlgoRepo;
 
@@ -26,8 +26,7 @@ namespace Adaption
             Register(ShapeContext, new CShapeContext());
             Register(PCA, new CPCA());
             Register(Hausdorff, new CHausdorffDistance());
-            Register(ModifiedShapeContext, new CModifiedShapeContext());
-            //s_AlgoRepo[Hausdorrf] = new ...
+            Register(Pipeline, new CPipedAlgorithm());
         }
         public void Register(string i_AlgoName, IMatchingAlgo i_AlgoAdoption)
         {

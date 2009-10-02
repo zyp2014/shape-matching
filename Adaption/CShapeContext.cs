@@ -12,9 +12,6 @@ namespace Adaption
 {
     public class CShapeContext : AlgorithmBase
     {
-        public static readonly int sr_X = 0;
-        public static readonly int sr_Y = 1;
-
         private Image m_Image1 = null;
         private Image m_Image2 = null;
 
@@ -26,23 +23,18 @@ namespace Adaption
 
         public CShapeContext()
         {
-            TresHoldColor       = Utilities.sr_defaultTresholdColor;
             NumberOfSamples     = Utils.sr_NoInit;
             NumberOfIterations  = Utils.sr_NoInit;
             NumberOfBins        = Utils.sr_NoInit;
             NumberOfThetaBins   = Utils.sr_NoInit;
             SourceSamples       = null;
             TargetSamples       = null;
+
+            UseStandardAlignment = false;
         }
 
         #region PreRun parameters
 
-        /// <summary>
-        /// Determines which colors will be selected for processing,
-        /// Lighter colors(Higher values) than the treshold will be dropped.
-        /// This property has to be set before Create(...) method. otherwise not consedered.
-        /// </summary>  
-        public Color    TresHoldColor       { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -76,6 +68,10 @@ namespace Adaption
         /// <get>If the value is set to null , will use the default</get>
         public Point[]  TargetSamples       { get; set; }
 
+        /// <summary>
+        /// Use alignment algorithm that Shape context provides
+        /// </summary>
+        public bool UseStandardAlignment { get; set; }
         #endregion
 
         #region IMatchingAlgo Members
@@ -85,8 +81,8 @@ namespace Adaption
             m_Image1 = i_SourceImage;
             m_Image2 = i_TargetImage;
 
-            List<Point> source = Utilities.ExtractPoints(m_Image1, TresHoldColor);
-            List<Point> target = Utilities.ExtractPoints(m_Image2, TresHoldColor);
+            List<Point> source = Utilities.ExtractPoints(m_Image1, TresholdColor);
+            List<Point> target = Utilities.ExtractPoints(m_Image2, TresholdColor);
 
             m_sourcePoints = Utilities.ListToArray(source);
             m_targetPoints = Utilities.ListToArray(target);
@@ -106,10 +102,10 @@ namespace Adaption
 
         public override ICData Run()
         {
+            int prevNumberOfSamples = NumberOfSamples;
             if (NumberOfSamples == Utils.sr_NoInit)
             {///if no amount of samples is set
-                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 100; ///Hard reduction
-                //NumberOfSamples = 25;
+                NumberOfSamples = Math.Min(m_sourcePoints.Length, m_targetPoints.Length) / 50; ///Hard reduction
             }
             
             #region Default params override
@@ -129,6 +125,11 @@ namespace Adaption
 
             #endregion
 
+            if (UseStandardAlignment)
+            {
+                m_matching.AlignmentLogic = m_matching.StandardAlignmentLogic;
+            }
+            
             m_matching.Calculate();
 
             CShapeContextResultData retResult = new CShapeContextResultData(
@@ -139,6 +140,9 @@ namespace Adaption
                 m_matching.LastTargetSamples
                 );
 
+            retResult.IncludeSource = IncludeSource;
+            retResult.MatchesColoringConvension = ColoringMatchesLogic;
+            NumberOfSamples = prevNumberOfSamples;
             return retResult;
         }
 
@@ -148,6 +152,11 @@ namespace Adaption
         }
 
         #endregion
+
+        private Color ColoringMatchesLogic(Color i_prevColor, int i_IterationNum)
+        {
+            return Color.FromArgb(150,(i_prevColor.R * i_IterationNum + i_IterationNum + 25) % 255, (i_prevColor.R * i_IterationNum + i_IterationNum + 50) % 255, (i_prevColor.R * i_IterationNum + i_IterationNum + 75) % 255);
+        }
 
         private Point[] SamplePoints(Point[] i_FullSet, int i_NumOfSamples)
         {
@@ -174,10 +183,8 @@ namespace Adaption
         }
     }
 
-    public class CShapeContextResultData : ICData
+    public class CShapeContextResultData : ResultBase
     {
-        private Bitmap  m_ResultingBitmap;
-
         private Point[] m_SourcePoints = null;
         private Point[] m_TargetPoints = null;
 
@@ -198,7 +205,7 @@ namespace Adaption
             MatchesColor = Utilities.sr_defaultMatchingColor;
 
             m_CommonSize = i_resultSize;
-            m_ResultingBitmap  = new Bitmap(i_resultSize.Width, i_resultSize.Height);
+            m_ResultlingBitmap = new Bitmap(i_resultSize.Width, i_resultSize.Height);
             m_SourcePoints      = i_source;
             m_TargetPoints      = i_target;
         }
@@ -217,33 +224,10 @@ namespace Adaption
 
         #endregion
 
-        #region ICData Members
-
-        public Image ResultImage
-        {
-            get 
-            {
-                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_SourcePoints, SourceColor);
-                Utilities.PutOnBitmap(ref m_ResultingBitmap, m_TargetPoints, TargetColor);
-
-                if ((m_SourceSamples != null && m_TargetSamples != null) &&
-                    (m_SourceSamples.Length == m_TargetSamples.Length))
-                {
-                    Graphics gfx = Graphics.FromImage(m_ResultingBitmap);
-                    placeMatches(ref gfx, m_SourceSamples, m_TargetSamples, MatchesColoringConvension);
-                    gfx.Dispose();
-                }
-
-                Image retImage = m_ResultingBitmap;
-
-                return retImage;
-            }
-        }
-
         private void placeMatches(ref Graphics io_graphics, Point[] i_Source, Point[] i_Target, CloringConvension ColoringMethodHandler)
         {
             Pen linePen = new Pen(MatchesColor);
-
+            
             for (int i = 0; i < i_Source.Length; ++i)
             {
                 if (ColoringMethodHandler != null)
@@ -255,7 +239,34 @@ namespace Adaption
             }
         }
 
-        public Size OptimalImageSize
+        #region ResultBase Members
+
+        public override Image ResultImage
+        {
+            get 
+            {
+                if (IncludeSource)
+                {
+                    Utilities.PutOnBitmap(ref m_ResultlingBitmap, m_SourcePoints, SourceColor);  
+                }
+                
+                Utilities.PutOnBitmap(ref m_ResultlingBitmap, m_TargetPoints, TargetColor);
+
+                if ((m_SourceSamples != null && m_TargetSamples != null) &&
+                    (m_SourceSamples.Length == m_TargetSamples.Length))
+                {
+                    Graphics gfx = Graphics.FromImage(m_ResultlingBitmap);
+                    placeMatches(ref gfx, m_SourceSamples, m_TargetSamples, MatchesColoringConvension);
+                    gfx.Dispose();
+                }
+
+                Image retImage = m_ResultlingBitmap;
+
+                return retImage;
+            }
+        }
+        
+        public override Size OptimalImageSize
         {
             get 
             {
@@ -263,7 +274,7 @@ namespace Adaption
             }
         }
 
-        public Image SourceImage
+        public override Image SourceImage
         {
             get 
             {
@@ -273,7 +284,7 @@ namespace Adaption
             }
         }
 
-        public Image TargetImage
+        public override Image TargetImage
         {
             get
             {
@@ -283,7 +294,7 @@ namespace Adaption
             }
         }
 
-        public Type MyType
+        public override Type MyType
         {
             get 
             {
@@ -291,13 +302,20 @@ namespace Adaption
             }
         }
 
-        public PropertyInfo[] PropertyList
+        public override PropertyInfo[] PropertyList
         {
             get 
             {
                 return MyType.GetProperties();
             }
         }
+
+        #region PreRun Properties
+
+        public override Color SourceColor { get; set; }
+        public override Color TargetColor { get; set; }
+
+        #endregion
 
         #endregion
 
@@ -306,8 +324,6 @@ namespace Adaption
         /// </summary>
         #region PreRun Properties
 
-        public Color SourceColor    { get; set; }
-        public Color TargetColor    { get; set; }
         public Color MatchesColor   { get; set; }
 
         public delegate Color CloringConvension(Color i_prevColor, int i_IterationNum);
