@@ -81,7 +81,7 @@ namespace Adaption
             List<Point> currList = null;
             Func<int, int, int, int> pointInsertionLogic = (row, col, value) =>
                 {
-                    for (int i = 0; i < value; i++)
+                    for (int i = 10; i < value; ++i)
                     {
                         currList.Add(new Point(col, row));
                     }
@@ -91,10 +91,10 @@ namespace Adaption
             //Applying this logic
             m_SourceBank = new List<Point>();
             currList = m_SourceBank;
-            sourceBinaryMap.Iterate(pointInsertionLogic);
+            diffSource.Iterate(pointInsertionLogic);
             m_TargetBank = new List<Point>();
             currList = m_TargetBank;
-            targetBinaryMap.Iterate(pointInsertionLogic);
+            diffTarget.Iterate(pointInsertionLogic);
 
             //3rd station ShapeContext Matching
             ///////////////////////////////////
