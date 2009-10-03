@@ -136,7 +136,18 @@ namespace ShapeContext
 
         private static DoubleMatrix tpsMAP(DoubleMatrix remapped, Size i_MeshSize, DoubleMatrix i_SourceMapping)
         {
-            DoubleMatrix TPSmap = new DoubleMatrix(i_MeshSize.Height * i_MeshSize.Width, i_SourceMapping.RowsCount + 3);
+            DoubleMatrix TPSmap = null;
+
+            try
+            {
+                TPSmap = new DoubleMatrix(i_MeshSize.Height * i_MeshSize.Width, i_SourceMapping.RowsCount + 3);
+            }
+            catch (Exception)
+            {
+
+                throw new TPSException("The size of the output is bigger than the algorithm can handle! Try to reduce the input size.");
+            }
+            
 
             for (int X = 0; X < i_MeshSize.Height; ++X)
             {

@@ -43,6 +43,7 @@ namespace Adaption
 
         public override ICData Run()
         {
+            Size StartingCommonSize = new Size(Math.Max(m_Image1.Width, m_Image2.Width), Math.Max(m_Image1.Height, m_Image2.Height));
             //Preparing structures
             List<Point> sourcePoints = Utilities.ExtractPoints(m_Image1, TresholdColor);
             List<Point> targetPoints = Utilities.ExtractPoints(m_Image2, TresholdColor);
@@ -59,14 +60,16 @@ namespace Adaption
             
             //In between stages
             DoubleMatrix minMax = PCA.Utils.ShiftToPositives(ref target, source);
-            
+
             sourcePoints = Utilities.MatrixToList(source);
             targetPoints = Utilities.MatrixToList(target);
 
             m_sourcePtArray = sourcePoints.ToArray();
             m_targetPtArray = targetPoints.ToArray();
 
-            Size meshSize = new Size((int)Math.Round(minMax[sr_X, sr_MaxCol] + 2), (int)Math.Round(minMax[sr_Y, sr_MaxCol] + 2));
+            Size meshSize = new Size(
+                Math.Max((int)Math.Ceiling(minMax[sr_X, sr_MaxCol] + 2), StartingCommonSize.Width),
+                Math.Max((int)Math.Ceiling(minMax[sr_Y, sr_MaxCol] + 2), StartingCommonSize.Height));
 
             //2nd station,Hausdorff Matching Points insertion
             //////////////////////////////////////////////////
@@ -81,7 +84,7 @@ namespace Adaption
             List<Point> currList = null;
             Func<int, int, int, int> pointInsertionLogic = (row, col, value) =>
                 {
-                    for (int i = 10; i < value; ++i)
+                    for (int i = 2; i < value; ++i)
                     {
                         currList.Add(new Point(col, row));
                     }

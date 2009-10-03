@@ -134,7 +134,7 @@ namespace Adaption
             {
                 int PixelRow = (int)i_PointSet[sr_Yrow, col];
                 int PixelCol = (int)i_PointSet[sr_Xrow, col];
-                retMap[PixelRow, PixelCol] = sr_Line;
+                retMap[PixelRow, PixelCol] = sr_Line;               
             }
             return retMap;
         }

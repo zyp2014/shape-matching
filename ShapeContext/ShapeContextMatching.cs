@@ -144,7 +144,14 @@ namespace ShapeContext
 
             if (AlignmentLogic != null)
             {
-                AlignmentLogic(m_SurfaceSize, SourceTargetMap, ref fullTargetSet);
+                try
+                {
+                    AlignmentLogic(m_SurfaceSize, SourceTargetMap, ref fullTargetSet);
+                }
+                catch (TPSException TPSe)
+                {
+                    //Do nothing
+                }
             }            
 
             #region Preveous Method
