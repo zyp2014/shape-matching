@@ -94,9 +94,21 @@ namespace Adaption
 
         private Size ShiftToPozitives(ref DoubleMatrix io_Source, ref DoubleMatrix io_Target, Size i_ImageCurrSize)
         {
+            //Calculating Optimal(valid) size for targets
             DoubleMatrix minMaxTarget = Utils.ShiftToPositives(ref io_Target,io_Source);
-            return new Size((int)Math.Max(Math.Ceiling(minMaxTarget[sr_X, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Width),
-                            (int)Math.Max(Math.Ceiling(minMaxTarget[sr_Y, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Height));
+            Size targetSize = new Size(
+                (int)Math.Max(Math.Ceiling(minMaxTarget[sr_X, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Width),
+                (int)Math.Max(Math.Ceiling(minMaxTarget[sr_Y, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Height));
+            //Calculating Optimal(valid) size for sources
+            DoubleMatrix minMaxSource = Utils.ShiftToPositives(ref io_Source, io_Target);
+            Size sourceSize = new Size(
+                (int)Math.Max(Math.Ceiling(minMaxSource[sr_X, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Width),
+                (int)Math.Max(Math.Ceiling(minMaxSource[sr_Y, Utils.sr_MaxCol]) + 2, i_ImageCurrSize.Height));
+
+            //Returning Optimal(valid) size for both
+            return new Size(
+                (int)Math.Max(targetSize.Width, sourceSize.Width),
+                (int)Math.Max(targetSize.Height, sourceSize.Height));
         }
 
         #region ResultBase Members
