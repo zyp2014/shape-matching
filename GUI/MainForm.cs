@@ -10,9 +10,12 @@ using System.IO;
 using Filmstrip;
 using Adaption;
 using System.Drawing.Imaging;
+using System.Threading;
 
 namespace GUI
 {
+    public delegate void AlgoInvoker();
+
     public partial class MainForm : Form
     {
         private AlgoFactory     m_Factory;
@@ -24,7 +27,7 @@ namespace GUI
         private CPCA                m_currPCAalgo;
         private CHausdorffDistance  m_currHausdorffalgo;
         private CShapeContext       m_currShapeContextalgo;
-        private CPipedAlgorithm     m_currPipedalgo;
+        private CComboAlgorithm     m_currPipedalgo;
         public MainForm()
         {
             InitializeComponent();
@@ -33,13 +36,11 @@ namespace GUI
             fillImageList(SourcesFilmStrip, sourceImages);
             fillImageList(TargetsFilmStrip, targetImages);
             m_Factory = new AlgoFactory();
-            ResultDragged.SizeMode = PictureBoxSizeMode.Zoom;
-            ResultDragged.SendToBack();
 
             m_currPCAalgo           = new CPCA();
             m_currHausdorffalgo     = new CHausdorffDistance();
             m_currShapeContextalgo  = new CShapeContext();
-            m_currPipedalgo         = new CPipedAlgorithm();
+            m_currPipedalgo         = new CComboAlgorithm();
 
             propertyGrid1.SelectedObject = m_currPCAalgo;
             propertyGrid2.SelectedObject = m_currHausdorffalgo;
@@ -83,6 +84,11 @@ namespace GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            this.Invoke(new AlgoInvoker(CalculatePCA));
+        }
+
+        private void CalculatePCA()
+        {
             m_CurrAlgorithmAlias = AlgoFactory.PCA;
             m_CurrMatchingAlgo = m_currPCAalgo;
             try
@@ -96,12 +102,15 @@ namespace GUI
             {
                 MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            //m_currPCAalgo = new CPCA();
             propertyGrid1.Refresh();
         }
 
         private void button2_Click(object sender, EventArgs e)
+        {
+            this.Invoke(new AlgoInvoker(CalculateHausdorff));
+        }
+
+        private void CalculateHausdorff()
         {
             m_CurrAlgorithmAlias = AlgoFactory.Hausdorff;
             m_CurrMatchingAlgo = m_currHausdorffalgo;
@@ -117,11 +126,15 @@ namespace GUI
                 MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            //m_currHausdorffalgo = new CHausdorffDistance();
             propertyGrid2.Refresh();
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+            this.Invoke(new AlgoInvoker(CalculateShapeContext));
+        }
+
+        private void CalculateShapeContext()
         {
             m_CurrAlgorithmAlias = AlgoFactory.ShapeContext;
             m_CurrMatchingAlgo = m_currShapeContextalgo;
@@ -137,8 +150,31 @@ namespace GUI
                 MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            //m_currShapeContextalgo = new CShapeContext();
             propertyGrid3.Refresh();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            this.Invoke(new AlgoInvoker(CalculateCombo));
+        }
+
+        private void CalculateCombo()
+        {
+            m_CurrAlgorithmAlias = AlgoFactory.Combined;
+            m_CurrMatchingAlgo = m_currPipedalgo;
+            try
+            {
+                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
+                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
+                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
+                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            propertyGrid4.Refresh();
         }
 
         private void ResultPictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -193,25 +229,6 @@ namespace GUI
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            m_CurrAlgorithmAlias = AlgoFactory.Pipeline;
-            m_CurrMatchingAlgo = m_currPipedalgo;
-            try
-            {
-                m_CurrMatchingAlgo.Create(SourcesFilmStrip.SelectedImage, TargetsFilmStrip.SelectedImage);
-                m_CurrAlgoResult = m_CurrMatchingAlgo.Run();
-                ResultPictureBox.Image = m_CurrAlgoResult.ResultImage;
-                m_CurrTargetAlias = SourcesFilmStrip.SelectedImage.Tag as string;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Exception was thrown", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            propertyGrid4.Refresh();
         }
     }
 }

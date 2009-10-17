@@ -9,7 +9,7 @@ namespace Adaption
     public class AlgoFactory : IAlgoFactory
     {
         public static readonly string ShapeContext = "Shape context";
-        public static readonly string Pipeline = "Pipeline";
+        public static readonly string Combined = "Combined Process";
         public static readonly string PCA = "Principal Component Analysis";
         public static readonly string Hausdorff = "Hausdorff alignment";
 
@@ -26,7 +26,7 @@ namespace Adaption
             Register(ShapeContext, new CShapeContext());
             Register(PCA, new CPCA());
             Register(Hausdorff, new CHausdorffDistance());
-            Register(Pipeline, new CPipedAlgorithm());
+            Register(Combined, new CComboAlgorithm());
         }
         public void Register(string i_AlgoName, IMatchingAlgo i_AlgoAdoption)
         {

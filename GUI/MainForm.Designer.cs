@@ -58,7 +58,6 @@ namespace GUI
             this.button4 = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.ResultDragged = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.TargetsMenuStrip.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -83,7 +82,6 @@ namespace GUI
             this.splitContainer5.Panel2.SuspendLayout();
             this.splitContainer5.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ResultDragged)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -173,7 +171,7 @@ namespace GUI
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1007, 540);
-            this.splitContainer1.SplitterDistance = 722;
+            this.splitContainer1.SplitterDistance = 717;
             this.splitContainer1.TabIndex = 1;
             // 
             // ResultPictureBox
@@ -182,7 +180,7 @@ namespace GUI
             this.ResultPictureBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ResultPictureBox.Location = new System.Drawing.Point(0, 0);
             this.ResultPictureBox.Name = "ResultPictureBox";
-            this.ResultPictureBox.Size = new System.Drawing.Size(722, 540);
+            this.ResultPictureBox.Size = new System.Drawing.Size(717, 540);
             this.ResultPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ResultPictureBox.TabIndex = 0;
             this.ResultPictureBox.TabStop = false;
@@ -199,7 +197,7 @@ namespace GUI
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(281, 540);
+            this.tabControl1.Size = new System.Drawing.Size(286, 540);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -208,7 +206,7 @@ namespace GUI
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(273, 511);
+            this.tabPage1.Size = new System.Drawing.Size(278, 511);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "PCA";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -228,7 +226,7 @@ namespace GUI
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.button1);
-            this.splitContainer2.Size = new System.Drawing.Size(267, 505);
+            this.splitContainer2.Size = new System.Drawing.Size(272, 505);
             this.splitContainer2.SplitterDistance = 453;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -237,7 +235,7 @@ namespace GUI
             this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid1.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid1.Name = "propertyGrid1";
-            this.propertyGrid1.Size = new System.Drawing.Size(267, 453);
+            this.propertyGrid1.Size = new System.Drawing.Size(272, 453);
             this.propertyGrid1.TabIndex = 0;
             // 
             // button1
@@ -245,7 +243,7 @@ namespace GUI
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(267, 48);
+            this.button1.Size = new System.Drawing.Size(272, 48);
             this.button1.TabIndex = 0;
             this.button1.Text = "Run Algorithm";
             this.button1.UseVisualStyleBackColor = true;
@@ -257,7 +255,7 @@ namespace GUI
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(273, 511);
+            this.tabPage2.Size = new System.Drawing.Size(278, 511);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Hausdorff distance";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -277,7 +275,7 @@ namespace GUI
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.button2);
-            this.splitContainer3.Size = new System.Drawing.Size(267, 505);
+            this.splitContainer3.Size = new System.Drawing.Size(272, 505);
             this.splitContainer3.SplitterDistance = 452;
             this.splitContainer3.TabIndex = 1;
             // 
@@ -286,7 +284,7 @@ namespace GUI
             this.propertyGrid2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid2.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid2.Name = "propertyGrid2";
-            this.propertyGrid2.Size = new System.Drawing.Size(267, 452);
+            this.propertyGrid2.Size = new System.Drawing.Size(272, 452);
             this.propertyGrid2.TabIndex = 0;
             // 
             // button2
@@ -294,7 +292,7 @@ namespace GUI
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.Location = new System.Drawing.Point(0, 0);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(267, 49);
+            this.button2.Size = new System.Drawing.Size(272, 49);
             this.button2.TabIndex = 0;
             this.button2.Text = "Run Algorithm";
             this.button2.UseVisualStyleBackColor = true;
@@ -306,7 +304,7 @@ namespace GUI
             this.tabPage3.Location = new System.Drawing.Point(4, 25);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(273, 511);
+            this.tabPage3.Size = new System.Drawing.Size(278, 511);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Shape Context";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -326,7 +324,7 @@ namespace GUI
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.button3);
-            this.splitContainer4.Size = new System.Drawing.Size(267, 505);
+            this.splitContainer4.Size = new System.Drawing.Size(272, 505);
             this.splitContainer4.SplitterDistance = 452;
             this.splitContainer4.TabIndex = 1;
             // 
@@ -335,7 +333,7 @@ namespace GUI
             this.propertyGrid3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid3.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid3.Name = "propertyGrid3";
-            this.propertyGrid3.Size = new System.Drawing.Size(267, 452);
+            this.propertyGrid3.Size = new System.Drawing.Size(272, 452);
             this.propertyGrid3.TabIndex = 0;
             // 
             // button3
@@ -343,7 +341,7 @@ namespace GUI
             this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button3.Location = new System.Drawing.Point(0, 0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(267, 49);
+            this.button3.Size = new System.Drawing.Size(272, 49);
             this.button3.TabIndex = 0;
             this.button3.Text = "Run Algorithm";
             this.button3.UseVisualStyleBackColor = true;
@@ -355,9 +353,9 @@ namespace GUI
             this.tabPage4.Location = new System.Drawing.Point(4, 25);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(273, 511);
+            this.tabPage4.Size = new System.Drawing.Size(278, 511);
             this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Pipe";
+            this.tabPage4.Text = "Combo";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
             // splitContainer5
@@ -374,7 +372,7 @@ namespace GUI
             // splitContainer5.Panel2
             // 
             this.splitContainer5.Panel2.Controls.Add(this.button4);
-            this.splitContainer5.Size = new System.Drawing.Size(267, 505);
+            this.splitContainer5.Size = new System.Drawing.Size(272, 505);
             this.splitContainer5.SplitterDistance = 453;
             this.splitContainer5.TabIndex = 0;
             // 
@@ -383,7 +381,7 @@ namespace GUI
             this.propertyGrid4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGrid4.Location = new System.Drawing.Point(0, 0);
             this.propertyGrid4.Name = "propertyGrid4";
-            this.propertyGrid4.Size = new System.Drawing.Size(267, 453);
+            this.propertyGrid4.Size = new System.Drawing.Size(272, 453);
             this.propertyGrid4.TabIndex = 1;
             // 
             // button4
@@ -391,7 +389,7 @@ namespace GUI
             this.button4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button4.Location = new System.Drawing.Point(0, 0);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(267, 48);
+            this.button4.Size = new System.Drawing.Size(272, 48);
             this.button4.TabIndex = 1;
             this.button4.Text = "Run Algorithm";
             this.button4.UseVisualStyleBackColor = true;
@@ -411,14 +409,7 @@ namespace GUI
             // 
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // ResultDragged
-            // 
-            this.ResultDragged.Location = new System.Drawing.Point(287, 184);
-            this.ResultDragged.Name = "ResultDragged";
-            this.ResultDragged.Size = new System.Drawing.Size(160, 134);
-            this.ResultDragged.TabIndex = 1;
-            this.ResultDragged.TabStop = false;
+            this.toolStripProgressBar1.Visible = false;
             // 
             // MainForm
             // 
@@ -428,7 +419,6 @@ namespace GUI
             this.ClientSize = new System.Drawing.Size(1015, 748);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.ResultDragged);
             this.Name = "MainForm";
             this.Text = "MainForm";
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -456,7 +446,6 @@ namespace GUI
             this.splitContainer5.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ResultDragged)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -483,7 +472,6 @@ namespace GUI
         private System.Windows.Forms.PropertyGrid propertyGrid3;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.PictureBox ResultDragged;
         private System.Windows.Forms.ContextMenuStrip TargetsMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;

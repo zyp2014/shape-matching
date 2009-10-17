@@ -10,7 +10,7 @@ using HausdorffDistance;
 
 namespace Adaption
 {
-    public class CPipedAlgorithm : AlgorithmBase
+    public class CComboAlgorithm : AlgorithmBase
     {
         public static readonly int sr_MaxCol = 1;
 
@@ -20,8 +20,14 @@ namespace Adaption
         private List<Point> m_SourceBank = null;
         private List<Point> m_TargetBank = null;
 
-        Point[] m_sourcePtArray = null;
-        Point[] m_targetPtArray = null;
+        private Point[] m_sourcePtArray = null;
+        private Point[] m_targetPtArray = null;
+
+        public CComboAlgorithm()
+        {
+            ShapeContextSamplesNum = sr_Not_Set;
+            ShapeContextWarpDistanceTreshold = sr_Not_Set;
+        }
 
         #region AlgorithmBase members
 
@@ -29,15 +35,13 @@ namespace Adaption
         {
             m_Image1 = i_SourceImage;
             m_Image2 = i_TargetImage;
-
-
         }
 
         public override Type MyType
         {
             get
             {
-                return typeof(CPipedAlgorithm);
+                return typeof(CComboAlgorithm);
             }
         }
 
@@ -60,6 +64,7 @@ namespace Adaption
             
             //In between stages
             DoubleMatrix minMax = PCA.Utils.ShiftToPositives(ref target, source);
+            minMax              = PCA.Utils.ShiftToPositives(ref source, target);
 
             sourcePoints = Utilities.MatrixToList(source);
             targetPoints = Utilities.MatrixToList(target);
@@ -104,6 +109,10 @@ namespace Adaption
             ShapeContextMatching shapeContextMatching = new ShapeContextMatching(m_sourcePtArray, m_targetPtArray, meshSize, SelectSamplesLogic);
             
             shapeContextMatching.AlignmentLogic = shapeContextMatching.StandardAlignmentLogic;
+            if (ShapeContextWarpDistanceTreshold > 0)
+            {
+                shapeContextMatching.DistanceTreshold = ShapeContextWarpDistanceTreshold;
+            }
             shapeContextMatching.Calculate();
 
             CShapeContextResultData retResult =
@@ -135,7 +144,16 @@ namespace Adaption
             }
             else
             {
-                int numberOfSamples = Math.Min(m_SourceBank.Count, m_TargetBank.Count) / 50;
+                int numberOfSamples = 0;
+
+                if (ShapeContextSamplesNum == sr_Not_Set)
+                {
+                    numberOfSamples = Math.Min(m_SourceBank.Count, m_TargetBank.Count) / 50;
+                }
+                else
+                {
+                    numberOfSamples = ShapeContextSamplesNum;
+                }                 
                 return ShapeContext.Utils.GetIndexedSamplePoints(i_FullSet, numberOfSamples);
             }
         }
@@ -149,62 +167,10 @@ namespace Adaption
         }
 
         #endregion
-    }
 
-    public class PipedResult : ResultBase
-    {
-        public override Image ResultImage
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override Image SourceImage
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override Image TargetImage
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override Size OptimalImageSize
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override Type MyType
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override System.Reflection.PropertyInfo[] PropertyList
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public override Color SourceColor
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public override Color TargetColor
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        #region Props
+        public int ShapeContextSamplesNum { get; set; }
+        public int ShapeContextWarpDistanceTreshold { get; set; }
+        #endregion
     }
 }

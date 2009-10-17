@@ -10,9 +10,9 @@ namespace Adaption
 {
     public abstract class AlgorithmBase : IMatchingAlgo
     {
-        public static readonly int sr_X = 0;
-        public static readonly int sr_Y = 1;
-
+        public static readonly int sr_X         = 0;
+        public static readonly int sr_Y         = 1;
+        public static readonly int sr_Not_Set   = -1;
         public AlgorithmBase()
         {
             TresholdColor = Utilities.sr_defaultTresholdColor;

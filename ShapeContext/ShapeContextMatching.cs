@@ -141,7 +141,7 @@ namespace ShapeContext
 
             //Converting and sequencing the samples according to the matchings we've found
             Pair<DoubleMatrix, DoubleMatrix> SourceTargetMap = buildMappingByIndex(m_Shape1Samples, m_Shape2Samples, m_Matches);
-
+            //Trying to Align according to provided logic
             if (AlignmentLogic != null)
             {
                 try
@@ -193,6 +193,12 @@ namespace ShapeContext
             m_Shape2Points = fullTargetSet;
         }
 
+        /// <summary>
+        /// The one option given to the user , if Warping preferred.
+        /// </summary>
+        /// <param name="i_SurfaceSize"></param>
+        /// <param name="i_SourceToTargetMapping"></param>
+        /// <param name="io_DrawingPoints"></param>
         public void StandardAlignmentLogic(Size i_SurfaceSize, Pair<DoubleMatrix, DoubleMatrix> i_SourceToTargetMapping, ref Point[] io_DrawingPoints)
         {
             //There are some harshly wrong matches, will try eliminate them using a treshold.
@@ -210,6 +216,12 @@ namespace ShapeContext
             tpsWarpping.Interpolate(ref io_DrawingPoints);
         }
 
+        /// <summary>
+        /// Preparing the steps of Classic Shape context Algorithm
+        /// </summary>
+        /// <param name="i_SourceSamples"></param>
+        /// <param name="i_TargetSamples"></param>
+        /// <returns></returns>
         public int[] DetermineMatches(Point[] i_SourceSamples, Point[] i_TargetSamples)
         {
             double shape1DistanceAvg, shape2DistanceAvg;
@@ -229,6 +241,13 @@ namespace ShapeContext
 
         #region Private Section
 
+        /// <summary>
+        /// Better way (over than Hungarian) to make pairing when there is a possibility of non-perfect pairing.
+        /// Will find best pairing if the targets number is more than source. In such way the chances are for better match.
+        /// </summary>
+        /// <param name="m_costMatrix"></param>
+        /// <param name="o_MatchingData"></param>
+        /// <returns></returns>
         private int[] determineBestDistance(DoubleMatrix m_costMatrix,out Dictionary<int, Pair<int, double>> o_MatchingData)
         {
             int[] retSuiteIndexes = new int[m_costMatrix.RowsCount];
@@ -287,6 +306,10 @@ namespace ShapeContext
             return retSuiteIndexes;
         }
 
+        /// <summary>
+        /// Exclude points from sample list, having null distances between them.
+        /// </summary>
+        /// <param name="io_PairedSets"></param>
         private void reduceNullDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets)
         {
             int ZeroDistanceCount = 0;
@@ -323,6 +346,11 @@ namespace ShapeContext
             io_PairedSets.Element2 = newTarget;
         }
 
+        /// <summary>
+        /// Reset pairs with large histrogram distance between them
+        /// </summary>
+        /// <param name="io_PairedSets"></param>
+        /// <param name="i_TresholdFromSurfSize"></param>
         private void enforceDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets, double i_TresholdFromSurfSize)
         {
             if (i_TresholdFromSurfSize < 0 || i_TresholdFromSurfSize > 100)
@@ -350,6 +378,11 @@ namespace ShapeContext
             targetPoints.Iterate(cellLogic);
         }
 
+        /// <summary>
+        /// Reset pairs with large Euclid distance between them
+        /// </summary>
+        /// <param name="io_PairedSets"></param>
+        /// <param name="i_TresholdFromSurfSize"></param>
         private void enforceEuDistance(ref Pair<DoubleMatrix, DoubleMatrix> io_PairedSets, double i_TresholdFromSurfSize)
         {
             if (i_TresholdFromSurfSize < 0 || i_TresholdFromSurfSize > 100)
@@ -374,6 +407,13 @@ namespace ShapeContext
             }
         }
 
+        /// <summary>
+        /// Convert index pairing to Sorted 1 to 1 pairing.
+        /// </summary>
+        /// <param name="i_sourceMapping"></param>
+        /// <param name="i_targetMapping"></param>
+        /// <param name="i_matches"></param>
+        /// <returns></returns>
         private Pair<DoubleMatrix, DoubleMatrix> buildMappingByIndex(Point[] i_sourceMapping, Point[] i_targetMapping, int[] i_matches)
         {
             Pair<DoubleMatrix, DoubleMatrix> retMapping = new Pair<DoubleMatrix, DoubleMatrix>();
@@ -382,6 +422,11 @@ namespace ShapeContext
             return retMapping;
         }
 
+        /// <summary>
+        /// Preparing histrograms for member samples. and placing in member histrograms param.
+        /// </summary>
+        /// <param name="o_Shape1DistanceAvg"></param>
+        /// <param name="o_Shape2DistanceAvg"></param>
         private void calcHistograms(out double o_Shape1DistanceAvg, out double o_Shape2DistanceAvg)
         {
             // original model histogram
@@ -391,6 +436,12 @@ namespace ShapeContext
             m_Shape2Histogram = Histogram.CreateHistogram(m_Shape2Samples, NumOfThetaBins, NumOfBins, out o_Shape2DistanceAvg);
         }
 
+        /// <summary>
+        /// Preparing a new Histrogram according to provided points
+        /// </summary>
+        /// <param name="i_ShapePoints"></param>
+        /// <param name="o_ShapecalcHistograms"></param>
+        /// <returns></returns>
         private DoubleMatrix[] calcHistograms(Point[] i_ShapePoints, out double o_ShapecalcHistograms)
         {
             return Histogram.CreateHistogram(i_ShapePoints, NumOfThetaBins, NumOfBins, out o_ShapecalcHistograms);
@@ -434,6 +485,12 @@ namespace ShapeContext
             return costMatrix;
         }
 
+        /// <summary>
+        /// Finding the distance between two histrograms
+        /// </summary>
+        /// <param name="i_Histogram1">The first</param>
+        /// <param name="i_Histogram2">The second</param>
+        /// <returns>The distance</returns>
         private double calcTwoHistogramsCost(DoubleMatrix i_Histogram1, DoubleMatrix i_Histogram2)
         {
             double val1, val2, sum = 0, histogram1Sum, histogram2Sum;
@@ -457,23 +514,6 @@ namespace ShapeContext
                 }
             }
             return sum / 2;
-
-            //for (int i = 0; i < rowLen; ++i)
-            //{
-            //    for (int j = 0; j < colLen; ++j)
-            //    {
-            //        // normelized value
-            //        val1 = i_Histogram1[i, j];
-            //        val2 = i_Histogram2[i, j];
-
-            //        if ((val1 + val2) != 0)
-            //        {
-            //            sum += Math.Pow(val1 - val2, 2);
-            //        }
-            //    }
-            //}
-            //return Math.Sqrt(sum);
-
         }
 
         #endregion
